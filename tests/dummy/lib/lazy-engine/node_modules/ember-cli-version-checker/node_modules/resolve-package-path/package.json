@@ -1,0 +1,37 @@
+{
+  "name": "resolve-package-path",
+  "description": "a special purpose fast memoizing way to resolve a node modules package.json",
+  "version": "2.0.0",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "path-root": "^0.1.1",
+    "resolve": "^1.13.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.6",
+    "@types/fs-extra": "^8.0.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.12.14",
+    "@types/semver": "^6.2.0",
+    "chai": "^4.2.0",
+    "execa": "^3.4.0",
+    "fixturify-project": "^1.9.1",
+    "fs-extra": "^8.1.0",
+    "mocha": "^6.2.2",
+    "semver": "^6.3.0",
+    "typescript": "^3.7.3"
+  },
+  "scripts": {
+    "build": "tsc -b .",
+    "watch": "tsc --watch .",
+    "clean": "tsc -b --clean .",
+    "test": "yarn build && yarn test:js",
+    "test:js": "mocha tests/*-test.js",
+    "test:js:debug": "mocha debug tests/*-test.js"
+  },
+  "engines": {
+    "node": "8.* || 10.* || >= 12"
+  }
+}

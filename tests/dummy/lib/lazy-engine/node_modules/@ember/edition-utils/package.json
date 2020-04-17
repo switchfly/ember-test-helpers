@@ -1,0 +1,34 @@
+{
+  "name": "@ember/edition-utils",
+  "version": "1.2.0",
+  "description": "Utilities to detect if a given edition is in use in an ember-cli application.",
+  "repository": "https://github.com/emberjs/ember-octane-utils.git",
+  "license": "MIT",
+  "author": "Robert Jackson <me@rwjblue.com>",
+  "main": "index.js",
+  "scripts": {
+    "test": "qunit test.js"
+  },
+  "devDependencies": {
+    "broccoli-test-helper": "^2.0.0",
+    "qunit": "^2.9.2",
+    "release-it": "^12.2.1",
+    "release-it-lerna-changelog": "^1.0.3"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md"
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true
+    }
+  }
+}
