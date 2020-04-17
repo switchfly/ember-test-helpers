@@ -10,7 +10,7 @@ import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
 
 import hbs from 'htmlbars-inline-precompile';
 
-const modulePrefix = 'lazy-engine';
+const modulePrefix = 'eager-engine';
 const resolver = engineResolverFor(modulePrefix);
 
 module('setupRenderingContext "ember-engines"', function(hooks) {
