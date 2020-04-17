@@ -1,5 +1,3 @@
-/* globals EmberENV */
-import Ember from 'ember';
 import { module, test } from 'qunit';
 import {
   setupContext,
@@ -22,7 +20,6 @@ module('setupRenderingContext "ember-engines"', function(hooks) {
   });
 
   hooks.afterEach(async function() {
-    Ember.Test.unregisterWaiter(this._waiter);
     await teardownRenderingContext(this);
     await teardownContext(this);
   });
