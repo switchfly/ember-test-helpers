@@ -6,44 +6,49 @@ import {
   teardownRenderingContext,
   render,
 } from '@ember/test-helpers';
-import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
+import RSVP from 'rsvp';
 
 import hbs from 'htmlbars-inline-precompile';
+import Component from '@ember/component';
 
-const modulePrefix = 'eager-engine';
-const resolver = engineResolverFor(modulePrefix);
+async function setupEngineTest(context) {
+  let engineLoadPromise;
+  let engineInstance = context.owner.buildChildEngineInstance('eager-engine', {
+    routable: true,
+    mountPoint: 'eager-engine',
+  });
+  engineLoadPromise = RSVP.Promise.resolve(engineInstance);
+  await engineLoadPromise.then(engineInstance => {
+    return engineInstance.boot().then(() => {
+      context.engine = engineInstance;
+    });
+  });
+}
 
-module('setupRenderingContext "ember-engines"', function(hooks) {
+module('setupRenderingContext for "ember-engines"', function(hooks) {
   hooks.beforeEach(async function() {
     await setupContext(this);
-    await setupRenderingContext(this, { resolver });
+    await setupEngineTest(this);
+    await setupRenderingContext(this);
   });
 
   hooks.afterEach(async function() {
+    delete this.engine;
     await teardownRenderingContext(this);
     await teardownContext(this);
   });
 
   test('should change colors', async function(assert) {
-    assert.expect(2);
+    assert.expect(1);
 
-    // set the outer context to red
-    this.set('colorValue', 'red');
-
-    await render(hbs`{{#pretty-color name=colorValue}}{{/pretty-color}}`);
-
-    assert.equal(
-      this.element.querySelector('div').getAttribute('style'),
-      'color: red',
-      'starts as red'
+    this.engine.register('component:x-foo', Component.extend({}));
+    this.engine.register(
+      'template:components/x-foo',
+      hbs`<button {{action 'clicked'}}>Click me!</button>`
     );
 
-    this.set('colorValue', 'blue');
+    await render(hbs`{{#x-foo}}{{/x-foo}}`);
 
-    assert.equal(
-      this.element.querySelector('div').getAttribute('style'),
-      'color: blue',
-      'updates to blue'
-    );
+    assert.equal(this.element.textContent.trim(), 'Click me!');
   });
 });
