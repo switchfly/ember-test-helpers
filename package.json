@@ -75,7 +75,7 @@
     "eslint-plugin-typescript": "^0.14.0",
     "fs-extra": "^8.0.1",
     "ember-engines": "^0.8.5",
-    "lazy-engine": "link:./tests/dummy/lib/lazy-engine",
+    "lazy-engine": "link:./tests/dummy/lib/eager-engine",
     "loader.js": "^4.7.0",
     "prettier": "^1.17.1",
     "qunit": "^2.9.2",

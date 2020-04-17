@@ -7,7 +7,7 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.mount('lazy-engine', { path: '/use-lazy-engine', as: 'use-lazy-engine' });
+  this.mount('eager-engine', { path: '/use-eager-engine', as: 'use-eager-engine' });
 });
 
 export default Router;
