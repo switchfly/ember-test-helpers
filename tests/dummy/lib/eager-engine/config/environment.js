@@ -3,8 +3,8 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'lazy-engine',
-    environment
+    modulePrefix: 'eager-engine',
+    environment,
   };
 
   return ENV;
