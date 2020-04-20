@@ -40,3 +40,4 @@ export { default as getRootElement } from './dom/get-root-element';
 export { default as find } from './dom/find';
 export { default as findAll } from './dom/find-all';
 export { default as typeIn } from './dom/type-in';
+export { default as scrollTo } from './dom/scroll-to';
