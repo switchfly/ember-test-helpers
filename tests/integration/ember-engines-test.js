@@ -7,13 +7,16 @@ import {
   render,
 } from '@ember/test-helpers';
 import RSVP from 'rsvp';
+import { run } from '@ember/runloop';
 
 import hbs from 'htmlbars-inline-precompile';
 import Component from '@ember/component';
 
+let engineInstance;
+
 async function setupEngineTest(context) {
   let engineLoadPromise;
-  let engineInstance = context.owner.buildChildEngineInstance('eager-engine', {
+  engineInstance = context.owner.buildChildEngineInstance('eager-engine', {
     routable: true,
     mountPoint: 'eager-engine',
   });
@@ -25,20 +28,21 @@ async function setupEngineTest(context) {
   });
 }
 
-module('setupRenderingContext for "ember-engines"', function(hooks) {
-  hooks.beforeEach(async function() {
+module('setupRenderingContext for "ember-engines"', function (hooks) {
+  hooks.beforeEach(async function () {
     await setupContext(this);
     await setupEngineTest(this);
     await setupRenderingContext(this);
   });
 
-  hooks.afterEach(async function() {
-    delete this.engine;
+  hooks.afterEach(async function () {
+    run(engineInstance, 'destroy');
+    run(this.engine, 'destroy');
     await teardownRenderingContext(this);
     await teardownContext(this);
   });
 
-  test('should change colors', async function(assert) {
+  test('should change colors', async function (assert) {
     assert.expect(1);
 
     this.engine.register('component:x-foo', Component.extend({}));
