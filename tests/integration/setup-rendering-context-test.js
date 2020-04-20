@@ -55,11 +55,11 @@ const ClickMeButtonComponent = Component.extend({
   },
 });
 
-module('setupRenderingContext "real world"', function(hooks) {
+module('setupRenderingContext "real world"', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     setResolverRegistry({
       'component:promise-wrapper': PromiseWrapper,
       'template:components/promise-wrapper': PromiseWrapperTemplate,
@@ -85,13 +85,13 @@ module('setupRenderingContext "real world"', function(hooks) {
     Ember.Test.registerWaiter(this._waiter);
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     Ember.Test.unregisterWaiter(this._waiter);
     await teardownRenderingContext(this);
     await teardownContext(this);
   });
 
-  test('can check element while waiting for settled state', async function(assert) {
+  test('can check element while waiting for settled state', async function (assert) {
     let deferred = defer();
     this.set('promise', deferred.promise);
 
@@ -118,7 +118,7 @@ module('setupRenderingContext "real world"', function(hooks) {
   // uses `{{-in-element` which was only added in Ember 2.10
   if (hasEmberVersion(2, 10)) {
     if (EmberENV._APPLICATION_TEMPLATE_WRAPPER !== false) {
-      test('can click on a sibling element of the application template wrapper', async function(assert) {
+      test('can click on a sibling element of the application template wrapper', async function (assert) {
         let rootElement = document.getElementById('ember-testing');
 
         assert.notEqual(
@@ -147,7 +147,7 @@ module('setupRenderingContext "real world"', function(hooks) {
         );
       });
     } else {
-      test('can click on a sibling of the rendered content', async function(assert) {
+      test('can click on a sibling of the rendered content', async function (assert) {
         let rootElement = document.getElementById('ember-testing');
         this.set('rootElement', rootElement);
 

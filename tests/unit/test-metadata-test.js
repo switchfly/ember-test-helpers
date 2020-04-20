@@ -2,8 +2,8 @@ import QUnit, { module, test } from 'qunit';
 import { getTestMetadata } from '@ember/test-helpers';
 import { TestMetadata } from '@ember/test-helpers/test-metadata';
 
-module('Test Metadata', function() {
-  test('getTestMetadata returns default test metadata', function(assert) {
+module('Test Metadata', function () {
+  test('getTestMetadata returns default test metadata', function (assert) {
     let test = QUnit.config.current;
     let testMetadata = getTestMetadata(test);
 
@@ -11,8 +11,8 @@ module('Test Metadata', function() {
     assert.deepEqual(testMetadata.setupTypes, []);
   });
 
-  module('Annotated Test Metadata', function(hooks) {
-    hooks.beforeEach(function() {
+  module('Annotated Test Metadata', function (hooks) {
+    hooks.beforeEach(function () {
       let context = this;
       let testMetadata = getTestMetadata(context);
 
@@ -20,7 +20,7 @@ module('Test Metadata', function() {
       testMetadata.testId = context.testId;
     });
 
-    test('getTestMetadata returns populated test metadata', function(assert) {
+    test('getTestMetadata returns populated test metadata', function (assert) {
       let context = this;
       let testMetadata = getTestMetadata(context);
 

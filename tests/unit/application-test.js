@@ -2,18 +2,18 @@ import { module, test } from 'qunit';
 import { application, resolver } from '../helpers/resolver';
 import { getApplication, setApplication, setResolver, getResolver } from '@ember/test-helpers';
 
-module('application', function(hooks) {
-  hooks.beforeEach(function() {
+module('application', function (hooks) {
+  hooks.beforeEach(function () {
     setApplication(null);
     setResolver(null);
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     setApplication(application);
     setResolver(resolver);
   });
 
-  test('calling setApplication sets resolver when resolver is unset', function(assert) {
+  test('calling setApplication sets resolver when resolver is unset', function (assert) {
     setApplication(application);
 
     let actualResolver = getResolver();
@@ -29,7 +29,7 @@ module('application', function(hooks) {
     assert.deepEqual(getApplication().constructor, application.constructor);
   });
 
-  test('calling setApplication when a resolver is set does not clobber existing resolver', function(assert) {
+  test('calling setApplication when a resolver is set does not clobber existing resolver', function (assert) {
     setResolver(resolver);
     setApplication(application);
 

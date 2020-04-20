@@ -10,7 +10,7 @@ import settled from './settled';
   @param {boolean} [options.waitForSettled=true] should the teardown wait for `settled()`ness
   @returns {Promise<void>} resolves when settled
 */
-export default function(context: object, options?: { waitForSettled?: boolean }): Promise<void> {
+export default function (context: object, options?: { waitForSettled?: boolean }): Promise<void> {
   let waitForSettled = true;
   if (options !== undefined && 'waitForSettled' in options) {
     waitForSettled = options.waitForSettled!;

@@ -15,7 +15,7 @@ let asyncLeakageFailures = [];
 
 run.backburner.DEBUG = true;
 
-QUnit.done(function() {
+QUnit.done(function () {
   if (moduleLoadFailures.length) {
     throw new Error('\n' + moduleLoadFailures.join('\n'));
   }
@@ -34,7 +34,7 @@ class TestLoader extends AbstractTestLoader {
     moduleLoadFailures.push(error);
 
     QUnit.module('TestLoader Failures');
-    QUnit.test(moduleName + ': could not be loaded', function() {
+    QUnit.test(moduleName + ': could not be loaded', function () {
       throw error;
     });
   }
@@ -53,11 +53,11 @@ registerDeprecationHandler((message, options, next) => {
   next(message, options);
 });
 
-QUnit.testStart(function() {
+QUnit.testStart(function () {
   deprecations = [];
 });
 
-QUnit.testDone(function({ module, name }) {
+QUnit.testDone(function ({ module, name }) {
   // ensure no test accidentally change state of run.backburner.DEBUG
   if (run.backburner.DEBUG !== true) {
     let message = `Ember.run.backburner.DEBUG should be reset (to true) after test has completed. ${module}: ${name} did not.`;
@@ -102,7 +102,7 @@ QUnit.testDone(function({ module, name }) {
   }
 });
 
-QUnit.assert.noDeprecations = function(callback) {
+QUnit.assert.noDeprecations = function (callback) {
   let originalDeprecations = deprecations;
   deprecations = [];
 
@@ -112,7 +112,7 @@ QUnit.assert.noDeprecations = function(callback) {
   deprecations = originalDeprecations;
 };
 
-QUnit.assert.deprecations = function(callback, expectedDeprecations) {
+QUnit.assert.deprecations = function (callback, expectedDeprecations) {
   let originalDeprecations = deprecations;
   deprecations = [];
 
@@ -122,7 +122,7 @@ QUnit.assert.deprecations = function(callback, expectedDeprecations) {
   deprecations = originalDeprecations;
 };
 
-QUnit.assert.deprecationsInclude = function(expected) {
+QUnit.assert.deprecationsInclude = function (expected) {
   this.pushResult({
     result: deprecations.indexOf(expected) > -1,
     actual: deprecations,

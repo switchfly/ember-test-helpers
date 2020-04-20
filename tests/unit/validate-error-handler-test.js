@@ -3,8 +3,8 @@ import Ember from 'ember';
 
 import { validateErrorHandler } from '@ember/test-helpers';
 
-module('validateErrorHandler', function(hooks) {
-  hooks.beforeEach(function(assert) {
+module('validateErrorHandler', function (hooks) {
+  hooks.beforeEach(function (assert) {
     assert.valid = result => {
       assert.deepEqual(result, {
         isValid: true,
@@ -20,29 +20,29 @@ module('validateErrorHandler', function(hooks) {
     };
   });
 
-  module('with a passed in callback', function() {
-    test('invokes the provided callback', function(assert) {
+  module('with a passed in callback', function () {
+    test('invokes the provided callback', function (assert) {
       assert.expect(1);
 
-      validateErrorHandler(function() {
+      validateErrorHandler(function () {
         assert.ok(true, 'error handler was invoked');
       });
     });
 
-    test('considers handler missing to be a valid handler', function(assert) {
+    test('considers handler missing to be a valid handler', function (assert) {
       let result = validateErrorHandler(null);
 
       assert.valid(result);
     });
 
-    test('when the provided function does _not_ rethrow it is invalid', function(assert) {
-      let result = validateErrorHandler(function() {});
+    test('when the provided function does _not_ rethrow it is invalid', function (assert) {
+      let result = validateErrorHandler(function () {});
 
       assert.invalid(result);
     });
 
-    test('when the provided function does rethrow it is valid', function(assert) {
-      let result = validateErrorHandler(function(error) {
+    test('when the provided function does rethrow it is valid', function (assert) {
+      let result = validateErrorHandler(function (error) {
         throw error;
       });
 
@@ -50,41 +50,41 @@ module('validateErrorHandler', function(hooks) {
     });
   });
 
-  module('without a passed in callback', function(hooks) {
-    hooks.beforeEach(function() {
+  module('without a passed in callback', function (hooks) {
+    hooks.beforeEach(function () {
       this.originalOnerror = Ember.onerror;
     });
 
-    hooks.afterEach(function() {
+    hooks.afterEach(function () {
       Ember.onerror = this.originalOnerror;
     });
 
-    test('invokes the provided callback', function(assert) {
+    test('invokes the provided callback', function (assert) {
       assert.expect(1);
 
-      Ember.onerror = function() {
+      Ember.onerror = function () {
         assert.ok(true, 'error handler was invoked');
       };
 
       validateErrorHandler();
     });
 
-    test('considers handler missing to be a valid handler', function(assert) {
+    test('considers handler missing to be a valid handler', function (assert) {
       Ember.onerror = undefined;
       let result = validateErrorHandler();
 
       assert.valid(result);
     });
 
-    test('when the provided function does _not_ rethrow it is invalid', function(assert) {
-      Ember.onerror = function() {};
+    test('when the provided function does _not_ rethrow it is invalid', function (assert) {
+      Ember.onerror = function () {};
       let result = validateErrorHandler();
 
       assert.invalid(result);
     });
 
-    test('when the provided function does rethrow it is valid', function(assert) {
-      Ember.onerror = function(error) {
+    test('when the provided function does rethrow it is valid', function (assert) {
+      Ember.onerror = function (error) {
         throw error;
       };
 

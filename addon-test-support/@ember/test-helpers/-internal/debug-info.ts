@@ -6,11 +6,7 @@ import {
 } from '@ember/runloop';
 import { DebugInfoHelper, debugInfoHelpers } from './debug-info-helpers';
 import { assign } from '@ember/polyfills';
-import {
-  getPendingWaiterState,
-  IPendingWaiterState,
-  ITestWaiterDebugInfo,
-} from 'ember-test-waiters';
+import { getPendingWaiterState, PendingWaiterState, TestWaiterDebugInfo } from 'ember-test-waiters';
 
 const PENDING_AJAX_REQUESTS = 'Pending AJAX requests';
 const PENDING_TEST_WAITERS = 'Pending test waiters';
@@ -32,7 +28,7 @@ interface SummaryInfo {
   hasPendingRequests: boolean;
   hasPendingLegacyWaiters: boolean;
   hasPendingTestWaiters: boolean;
-  pendingTestWaiterInfo: IPendingWaiterState;
+  pendingTestWaiterInfo: PendingWaiterState;
   autorunStackTrace: string | undefined | null;
   pendingTimersCount: number;
   hasPendingTimers: boolean;
@@ -154,7 +150,7 @@ export class TestDebugInfo implements DebugInfo {
 
         if (Array.isArray(waiterDebugInfo)) {
           _console.group(waiterName);
-          waiterDebugInfo.forEach((debugInfo: ITestWaiterDebugInfo) => {
+          waiterDebugInfo.forEach((debugInfo: TestWaiterDebugInfo) => {
             _console.log(`${debugInfo.label ? debugInfo.label : 'stack'}: ${debugInfo.stack}`);
           });
           _console.groupEnd();

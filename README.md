@@ -5,6 +5,15 @@
 
 A test-framework-agnostic set of helpers for testing Ember.js applications
 
+
+Compatibility
+------------------------------------------------------------------------------
+
+- Ember 3.8 or above
+- Ember CLI 3.8 or above
+- Node.js 10 or above
+
+
 Installation
 ------------------------------------------------------------------------------
 

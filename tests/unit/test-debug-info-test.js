@@ -10,16 +10,16 @@ import { registerDebugInfoHelper } from '@ember/test-helpers';
 import { debugInfoHelpers } from '@ember/test-helpers/-internal/debug-info-helpers';
 import { buildWaiter, _reset as resetWaiters } from 'ember-test-waiters';
 
-module('TestDebugInfo', function(hooks) {
-  hooks.beforeEach(function() {
+module('TestDebugInfo', function (hooks) {
+  hooks.beforeEach(function () {
     run.backburner.DEBUG = false;
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     run.backburner.DEBUG = true;
   });
 
-  test('summary returns minimal information when debugInfo is not present', function(assert) {
+  test('summary returns minimal information when debugInfo is not present', function (assert) {
     assert.expect(1);
 
     let hasPendingTimers = getRandomBoolean();
@@ -45,17 +45,17 @@ module('TestDebugInfo', function(hooks) {
   });
 
   if (backburnerDebugInfoAvailable()) {
-    module('when using backburner', function(hooks) {
+    module('when using backburner', function (hooks) {
       let cancelIds;
 
-      hooks.beforeEach(function() {
+      hooks.beforeEach(function () {
         run.backburner.DEBUG = true;
 
         cancelIds = [];
         overrideError(MockStableError);
       });
 
-      hooks.afterEach(function() {
+      hooks.afterEach(function () {
         cancelIds.forEach(cancelId => run.cancel(cancelId));
 
         run.backburner.DEBUG = false;
@@ -63,7 +63,7 @@ module('TestDebugInfo', function(hooks) {
         resetError();
       });
 
-      test('summary returns full information when debugInfo is present', function(assert) {
+      test('summary returns full information when debugInfo is present', function (assert) {
         assert.expect(1);
 
         cancelIds.push(run.later(() => {}, 5000));
@@ -96,7 +96,7 @@ module('TestDebugInfo', function(hooks) {
     });
   }
 
-  test('toConsole correctly prints minimal information', function(assert) {
+  test('toConsole correctly prints minimal information', function (assert) {
     assert.expect(1);
 
     let mockConsole = new MockConsole();
@@ -114,7 +114,7 @@ module('TestDebugInfo', function(hooks) {
     assert.deepEqual(mockConsole.toString(), '');
   });
 
-  test('toConsole correctly prints Scheduled autorun information', function(assert) {
+  test('toConsole correctly prints Scheduled autorun information', function (assert) {
     assert.expect(1);
 
     let mockConsole = new MockConsole();
@@ -139,7 +139,7 @@ STACK`
     );
   });
 
-  test('toConsole correctly prints AJAX information', function(assert) {
+  test('toConsole correctly prints AJAX information', function (assert) {
     assert.expect(1);
 
     let mockConsole = new MockConsole();
@@ -157,7 +157,7 @@ STACK`
     assert.deepEqual(mockConsole.toString(), `Pending AJAX requests`);
   });
 
-  test('toConsole correctly prints pending legacy test waiter information', function(assert) {
+  test('toConsole correctly prints pending legacy test waiter information', function (assert) {
     assert.expect(1);
 
     let mockConsole = new MockConsole();
@@ -175,7 +175,7 @@ STACK`
     assert.deepEqual(mockConsole.toString(), `Pending test waiters`);
   });
 
-  test('toConsole correctly prints pending test waiter information', function(assert) {
+  test('toConsole correctly prints pending test waiter information', function (assert) {
     assert.expect(1);
 
     let waiterItem = {};
@@ -207,7 +207,7 @@ stack: STACK`
     resetWaiters();
   });
 
-  test('toConsole correctly prints scheduled async information', function(assert) {
+  test('toConsole correctly prints scheduled async information', function (assert) {
     assert.expect(1);
 
     let mockConsole = new MockConsole();
@@ -220,7 +220,10 @@ stack: STACK`
         hasPendingTestWaiters: false,
         hasPendingRequests: false,
       },
-      getMockDebugInfo(false, 2, [{ name: 'one', count: 1 }, { name: 'two', count: 1 }])
+      getMockDebugInfo(false, 2, [
+        { name: 'one', count: 1 },
+        { name: 'two', count: 1 },
+      ])
     );
 
     testDebugInfo.toConsole(mockConsole);
@@ -235,7 +238,7 @@ STACK`
     );
   });
 
-  test('toConsole correctly prints scheduled async information with only scheduled queue items', function(assert) {
+  test('toConsole correctly prints scheduled async information with only scheduled queue items', function (assert) {
     assert.expect(1);
 
     let mockConsole = new MockConsole();
@@ -248,7 +251,10 @@ STACK`
         hasPendingTestWaiters: false,
         hasPendingRequests: false,
       },
-      getMockDebugInfo(false, 0, [{ name: 'one', count: 1 }, { name: 'two', count: 1 }])
+      getMockDebugInfo(false, 0, [
+        { name: 'one', count: 1 },
+        { name: 'two', count: 1 },
+      ])
     );
 
     testDebugInfo.toConsole(mockConsole);
@@ -261,7 +267,7 @@ STACK`
     );
   });
 
-  test('registerDebugInfoHelper registers a custom helper', function(assert) {
+  test('registerDebugInfoHelper registers a custom helper', function (assert) {
     assert.expect(1);
 
     let mockConsole = new MockConsole();

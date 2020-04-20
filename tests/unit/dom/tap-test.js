@@ -4,14 +4,14 @@ import { buildInstrumentedElement } from '../../helpers/events';
 import { isIE11 } from '../../helpers/browser-detect';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 
-module('DOM Helper: tap', function(hooks) {
+module('DOM Helper: tap', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
   let context, element;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     // used to simulate how `setupRenderingTest` (and soon `setupApplicationTest`)
     // set context.element to the rootElement
     context = {
@@ -19,7 +19,7 @@ module('DOM Helper: tap', function(hooks) {
     };
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     element.setAttribute('data-skip-steps', true);
 
     if (element) {
@@ -32,8 +32,8 @@ module('DOM Helper: tap', function(hooks) {
     document.getElementById('ember-testing').innerHTML = '';
   });
 
-  module('non-focusable element types', function() {
-    test('taping a div via selector with context set', async function(assert) {
+  module('non-focusable element types', function () {
+    test('taping a div via selector with context set', async function (assert) {
       element = buildInstrumentedElement('div');
 
       await setupContext(context);
@@ -42,7 +42,7 @@ module('DOM Helper: tap', function(hooks) {
       assert.verifySteps(['touchstart', 'touchend', 'mousedown', 'mouseup', 'click']);
     });
 
-    test('tapping a div via element with context set', async function(assert) {
+    test('tapping a div via element with context set', async function (assert) {
       element = buildInstrumentedElement('div');
 
       await setupContext(context);
@@ -51,7 +51,7 @@ module('DOM Helper: tap', function(hooks) {
       assert.verifySteps(['touchstart', 'touchend', 'mousedown', 'mouseup', 'click']);
     });
 
-    test('tapping a div via element without context set', async function(assert) {
+    test('tapping a div via element without context set', async function (assert) {
       element = buildInstrumentedElement('div');
 
       await tap(element);
@@ -59,7 +59,7 @@ module('DOM Helper: tap', function(hooks) {
       assert.verifySteps(['touchstart', 'touchend', 'mousedown', 'mouseup', 'click']);
     });
 
-    test('tapping passes options through to mouse events', async function(assert) {
+    test('tapping passes options through to mouse events', async function (assert) {
       element = buildInstrumentedElement('div', ['clientX', 'clientY', 'button']);
 
       await tap(element, { clientX: 13, clientY: 17, button: 1 });
@@ -73,7 +73,7 @@ module('DOM Helper: tap', function(hooks) {
       ]);
     });
 
-    test('does not run sync', async function(assert) {
+    test('does not run sync', async function (assert) {
       element = buildInstrumentedElement('div');
 
       let promise = tap(element);
@@ -85,7 +85,7 @@ module('DOM Helper: tap', function(hooks) {
       assert.verifySteps(['touchstart', 'touchend', 'mousedown', 'mouseup', 'click']);
     });
 
-    test('rejects if selector is not found', async function(assert) {
+    test('rejects if selector is not found', async function (assert) {
       element = buildInstrumentedElement('div');
 
       await setupContext(context);
@@ -96,7 +96,7 @@ module('DOM Helper: tap', function(hooks) {
       );
     });
 
-    test('tapping a div via selector without context set', async function(assert) {
+    test('tapping a div via selector without context set', async function (assert) {
       element = buildInstrumentedElement('div');
 
       assert.rejects(
@@ -106,13 +106,13 @@ module('DOM Helper: tap', function(hooks) {
     });
   });
 
-  module('focusable element types', function() {
+  module('focusable element types', function () {
     let tapSteps = ['touchstart', 'touchend', 'mousedown', 'focus', 'focusin', 'mouseup', 'click'];
 
     if (isIE11) {
       tapSteps = ['touchstart', 'touchend', 'mousedown', 'focusin', 'mouseup', 'click', 'focus'];
     }
-    test('tapping a input via selector with context set', async function(assert) {
+    test('tapping a input via selector with context set', async function (assert) {
       element = buildInstrumentedElement('input');
 
       await setupContext(context);
@@ -122,7 +122,7 @@ module('DOM Helper: tap', function(hooks) {
       assert.strictEqual(document.activeElement, element, 'activeElement updated');
     });
 
-    test('tapping a input via element with context set', async function(assert) {
+    test('tapping a input via element with context set', async function (assert) {
       element = buildInstrumentedElement('input');
 
       await setupContext(context);
@@ -132,7 +132,7 @@ module('DOM Helper: tap', function(hooks) {
       assert.strictEqual(document.activeElement, element, 'activeElement updated');
     });
 
-    test('tapping a input via element without context set', async function(assert) {
+    test('tapping a input via element without context set', async function (assert) {
       element = buildInstrumentedElement('input');
 
       await tap(element);
@@ -141,7 +141,7 @@ module('DOM Helper: tap', function(hooks) {
       assert.strictEqual(document.activeElement, element, 'activeElement updated');
     });
 
-    test('tapping a input via selector without context set', function(assert) {
+    test('tapping a input via selector without context set', function (assert) {
       element = buildInstrumentedElement('input');
 
       assert.rejects(

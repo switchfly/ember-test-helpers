@@ -16,7 +16,7 @@ import ajax from '../helpers/ajax';
 import Pretender from 'pretender';
 import setupManualTestWaiter from '../helpers/manual-test-waiter';
 
-module('teardownContext', function(hooks) {
+module('teardownContext', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
@@ -24,7 +24,7 @@ module('teardownContext', function(hooks) {
   setupManualTestWaiter(hooks);
 
   let context;
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.pretender = new Pretender();
     setResolverRegistry({
       'service:foo': Service.extend({ isFoo: true }),
@@ -33,11 +33,11 @@ module('teardownContext', function(hooks) {
     return setupContext(context);
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     this.pretender.shutdown();
   });
 
-  test('it destroys any instances created', async function(assert) {
+  test('it destroys any instances created', async function (assert) {
     let instance = context.owner.lookup('service:foo');
     assert.notOk(instance.isDestroyed, 'precond - not destroyed');
     assert.notOk(instance.isDestroying, 'precond - not destroying');
@@ -48,7 +48,7 @@ module('teardownContext', function(hooks) {
     assert.ok(instance.isDestroying, 'destroying');
   });
 
-  test('it sets Ember.testing to false', async function(assert) {
+  test('it sets Ember.testing to false', async function (assert) {
     assert.ok(Ember.testing, 'precond - Ember.testing is truthy');
 
     await teardownContext(context);
@@ -56,7 +56,7 @@ module('teardownContext', function(hooks) {
     assert.notOk(Ember.testing, 'Ember.testing is falsey after teardown');
   });
 
-  test('it unsets the context', async function(assert) {
+  test('it unsets the context', async function (assert) {
     assert.strictEqual(getContext(), context, 'precond');
 
     await teardownContext(context);
@@ -65,8 +65,8 @@ module('teardownContext', function(hooks) {
   });
 
   if (hasjQuery()) {
-    test('out of balance xhr semaphores are cleaned up on teardown', async function(assert) {
-      this.pretender.unhandledRequest = function(/* verb, path, request */) {
+    test('out of balance xhr semaphores are cleaned up on teardown', async function (assert) {
+      this.pretender.unhandledRequest = function (/* verb, path, request */) {
         throw new Error(`Synchronous error from Pretender.prototype.unhandledRequest`);
       };
 
@@ -80,7 +80,7 @@ module('teardownContext', function(hooks) {
     });
   }
 
-  test('can opt out of waiting for settledness', async function(assert) {
+  test('can opt out of waiting for settledness', async function (assert) {
     this.shouldWait = true;
 
     assert.equal(isSettled(), false, 'should not be settled');

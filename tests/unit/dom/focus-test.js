@@ -10,18 +10,18 @@ if (isIE11) {
   focusSteps = ['focusin', 'focus'];
 }
 
-module('DOM Helper: focus', function(hooks) {
+module('DOM Helper: focus', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
   let context, element;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     context = {};
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     element.setAttribute('data-skip-steps', true);
 
     if (element) {
@@ -34,21 +34,21 @@ module('DOM Helper: focus', function(hooks) {
     document.getElementById('ember-testing').innerHTML = '';
   });
 
-  test('focusing a div via selector with context set', async function(assert) {
+  test('focusing a div via selector with context set', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
     assert.rejects(focus(`#${element.id}`), /is not focusable/);
   });
 
-  test('focusing a div via element with context set', async function(assert) {
+  test('focusing a div via element with context set', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
     assert.rejects(focus(element), /is not focusable/);
   });
 
-  test('does not run sync', async function(assert) {
+  test('does not run sync', async function (assert) {
     element = buildInstrumentedElement('input');
 
     let promise = focus(element);
@@ -60,7 +60,7 @@ module('DOM Helper: focus', function(hooks) {
     assert.verifySteps(focusSteps);
   });
 
-  test('rejects if selector is not found', async function(assert) {
+  test('rejects if selector is not found', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -71,7 +71,7 @@ module('DOM Helper: focus', function(hooks) {
     );
   });
 
-  test('focusing a input via selector with context set', async function(assert) {
+  test('focusing a input via selector with context set', async function (assert) {
     element = buildInstrumentedElement('input');
 
     await setupContext(context);
@@ -81,7 +81,7 @@ module('DOM Helper: focus', function(hooks) {
     assert.strictEqual(document.activeElement, element, 'activeElement updated');
   });
 
-  test('focusing a input via element with context set', async function(assert) {
+  test('focusing a input via element with context set', async function (assert) {
     element = buildInstrumentedElement('input');
 
     await setupContext(context);
@@ -91,7 +91,7 @@ module('DOM Helper: focus', function(hooks) {
     assert.strictEqual(document.activeElement, element, 'activeElement updated');
   });
 
-  test('focusing a input via element without context set', async function(assert) {
+  test('focusing a input via element without context set', async function (assert) {
     element = buildInstrumentedElement('input');
 
     await focus(element);
@@ -100,7 +100,7 @@ module('DOM Helper: focus', function(hooks) {
     assert.strictEqual(document.activeElement, element, 'activeElement updated');
   });
 
-  test('focusing a input via selector without context set', async function(assert) {
+  test('focusing a input via selector without context set', async function (assert) {
     element = buildInstrumentedElement('input');
 
     assert.rejects(

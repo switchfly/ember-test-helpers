@@ -117,19 +117,19 @@ const TestComponent5 = Component.extend({
   },
 });
 
-module('settled real-world scenarios', function(hooks) {
+module('settled real-world scenarios', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     await setupContext(this);
     await setupRenderingContext(this);
 
-    this.server = new Pretender(function() {
+    this.server = new Pretender(function () {
       this.get(
         '/whazzits',
-        function() {
+        function () {
           return [200, { 'Content-Type': 'text/plain' }, 'Remote Data!'];
         },
         25
@@ -137,7 +137,7 @@ module('settled real-world scenarios', function(hooks) {
     });
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     await settled();
 
     this.server.shutdown();
@@ -146,7 +146,7 @@ module('settled real-world scenarios', function(hooks) {
     await teardownContext(this);
   });
 
-  test('basic behavior', async function(assert) {
+  test('basic behavior', async function (assert) {
     await settled();
 
     assert.ok(
@@ -155,7 +155,7 @@ module('settled real-world scenarios', function(hooks) {
     );
   });
 
-  test('it works when async exists in `init`', async function(assert) {
+  test('it works when async exists in `init`', async function (assert) {
     this.owner.register('component:x-test-1', TestComponent1);
 
     await this.render(hbs`{{x-test-1}}`);
@@ -165,7 +165,7 @@ module('settled real-world scenarios', function(hooks) {
     assert.equal(this.element.textContent, 'async value');
   });
 
-  test('does not error for various argument types', async function(assert) {
+  test('does not error for various argument types', async function (assert) {
     assert.expect(0); // no assertions, just shouldn't error
 
     await settled(3000);
@@ -174,7 +174,7 @@ module('settled real-world scenarios', function(hooks) {
     await settled();
   });
 
-  test('it works when async exists in an event/action', async function(assert) {
+  test('it works when async exists in an event/action', async function (assert) {
     this.owner.register('component:x-test-2', TestComponent2);
 
     await this.render(hbs`{{x-test-2}}`);
@@ -186,7 +186,7 @@ module('settled real-world scenarios', function(hooks) {
     assert.equal(this.element.textContent, 'async value');
   });
 
-  test('it waits for AJAX requests to finish', async function(assert) {
+  test('it waits for AJAX requests to finish', async function (assert) {
     this.owner.register('component:x-test-3', TestComponent3);
 
     await this.render(hbs`{{x-test-3}}`);
@@ -196,7 +196,7 @@ module('settled real-world scenarios', function(hooks) {
     assert.equal(this.element.textContent, 'Remote Data!');
   });
 
-  test('it waits for interleaved AJAX and run loops to finish', async function(assert) {
+  test('it waits for interleaved AJAX and run loops to finish', async function (assert) {
     this.owner.register('component:x-test-4', TestComponent4);
 
     await this.render(hbs`{{x-test-4}}`);
@@ -206,7 +206,7 @@ module('settled real-world scenarios', function(hooks) {
     assert.equal(this.element.textContent, 'Local Data!Remote Data!Remote Data!');
   });
 
-  test('it waits for Ember test waiters', async function(assert) {
+  test('it waits for Ember test waiters', async function (assert) {
     this.owner.register('component:x-test-5', TestComponent5);
 
     await this.render(hbs`{{x-test-5}}`);

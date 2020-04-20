@@ -25,7 +25,7 @@ const TestComponent3 = Component.extend({
 });
 
 const Router = EmberRouter.extend({ location: 'none' });
-Router.map(function() {
+Router.map(function () {
   this.route('ajax-request');
 });
 
@@ -37,10 +37,10 @@ moduleForAcceptance('Classic "moduleForAcceptance" | using settled', {
   },
 
   beforeEach() {
-    this.server = new Pretender(function() {
+    this.server = new Pretender(function () {
       this.get(
         '/whazzits',
-        function() {
+        function () {
           return [200, { 'Content-Type': 'text/plain' }, 'Remote Data!'];
         },
         25
@@ -58,7 +58,7 @@ moduleForAcceptance('Classic "moduleForAcceptance" | using settled', {
 // in older versions of ember legacy acceptance tests using `settled` from
 // `ember-test-helpers` will **not** wait on pending requests.
 if (hasEmberVersion(2, 8)) {
-  test('Basic acceptance test using instance test helpers', function(assert) {
+  test('Basic acceptance test using instance test helpers', function (assert) {
     return this.application.testHelpers
       .visit('/ajax-request')
       .then(() => {

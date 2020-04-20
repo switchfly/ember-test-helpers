@@ -1,8 +1,8 @@
 import { module, test } from 'qunit';
 import { waitUntil } from '@ember/test-helpers';
 
-module('DOM helper: waitUntil', function() {
-  test('waits until the provided function returns true', async function(assert) {
+module('DOM helper: waitUntil', function () {
+  test('waits until the provided function returns true', async function (assert) {
     let current = false;
     assert.step('before invocation');
     let waiter = waitUntil(() => current).then(() => {
@@ -17,7 +17,7 @@ module('DOM helper: waitUntil', function() {
     return waiter;
   });
 
-  test('waits until timeout expires', function(assert) {
+  test('waits until timeout expires', function (assert) {
     assert.step('before invocation');
     let waiter = waitUntil(() => {}, { timeout: 20 });
     assert.step('after invocation');
@@ -38,7 +38,7 @@ module('DOM helper: waitUntil', function() {
       });
   });
 
-  test('waits until timeout expires with custom error message', function(assert) {
+  test('waits until timeout expires with custom error message', function (assert) {
     assert.step('before invocation');
     let waiter = waitUntil(() => {}, {
       timeout: 20,
@@ -62,7 +62,7 @@ module('DOM helper: waitUntil', function() {
       });
   });
 
-  test('rejects when callback throws', function(assert) {
+  test('rejects when callback throws', function (assert) {
     return waitUntil(() => {
       throw new Error('error goes here');
     }).catch(reason => {

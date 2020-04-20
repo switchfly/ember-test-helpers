@@ -41,7 +41,7 @@ export default function waitUntil<T>(
   // creating this error eagerly so it has the proper invocation stack
   let waitUntilTimedOut = new Error(timeoutMessage);
 
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     let time = 0;
 
     // eslint-disable-next-line require-jsdoc
@@ -51,7 +51,7 @@ export default function waitUntil<T>(
         interval = MAX_TIMEOUT;
       }
 
-      futureTick(function() {
+      futureTick(function () {
         time += interval;
 
         let value: T | void | Falsy;

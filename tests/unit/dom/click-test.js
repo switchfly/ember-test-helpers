@@ -4,18 +4,18 @@ import { buildInstrumentedElement, instrumentElement, insertElement } from '../.
 import { isIE11 } from '../../helpers/browser-detect';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 
-module('DOM Helper: click', function(hooks) {
+module('DOM Helper: click', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
   let context, element;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     context = {};
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     element.setAttribute('data-skip-steps', true);
 
     if (element) {
@@ -28,8 +28,8 @@ module('DOM Helper: click', function(hooks) {
     document.getElementById('ember-testing').innerHTML = '';
   });
 
-  module('non-focusable element types', function() {
-    test('clicking a div via selector with context set', async function(assert) {
+  module('non-focusable element types', function () {
+    test('clicking a div via selector with context set', async function (assert) {
       element = buildInstrumentedElement('div');
 
       await setupContext(context);
@@ -38,7 +38,7 @@ module('DOM Helper: click', function(hooks) {
       assert.verifySteps(['mousedown', 'mouseup', 'click']);
     });
 
-    test('clicking a div via element with context set', async function(assert) {
+    test('clicking a div via element with context set', async function (assert) {
       element = buildInstrumentedElement('div');
 
       await setupContext(context);
@@ -47,7 +47,7 @@ module('DOM Helper: click', function(hooks) {
       assert.verifySteps(['mousedown', 'mouseup', 'click']);
     });
 
-    test('clicking a div via element without context set', async function(assert) {
+    test('clicking a div via element without context set', async function (assert) {
       element = buildInstrumentedElement('div');
 
       await click(element);
@@ -55,7 +55,7 @@ module('DOM Helper: click', function(hooks) {
       assert.verifySteps(['mousedown', 'mouseup', 'click']);
     });
 
-    test('does not run sync', async function(assert) {
+    test('does not run sync', async function (assert) {
       element = buildInstrumentedElement('div');
 
       let promise = click(element);
@@ -67,7 +67,7 @@ module('DOM Helper: click', function(hooks) {
       assert.verifySteps(['mousedown', 'mouseup', 'click']);
     });
 
-    test('rejects if selector is not found', async function(assert) {
+    test('rejects if selector is not found', async function (assert) {
       element = buildInstrumentedElement('div');
 
       await setupContext(context);
@@ -78,7 +78,7 @@ module('DOM Helper: click', function(hooks) {
       );
     });
 
-    test('clicking a div via selector without context set', function(assert) {
+    test('clicking a div via selector without context set', function (assert) {
       element = buildInstrumentedElement('div');
 
       assert.rejects(
@@ -87,7 +87,7 @@ module('DOM Helper: click', function(hooks) {
       );
     });
 
-    test('clicking a disabled div still clicks', async function(assert) {
+    test('clicking a disabled div still clicks', async function (assert) {
       element = buildInstrumentedElement('div');
       element.setAttribute('disabled', true);
 
@@ -96,7 +96,7 @@ module('DOM Helper: click', function(hooks) {
       assert.verifySteps(['mousedown', 'mouseup', 'click']);
     });
 
-    test('clicking passes options through to mouse events', async function(assert) {
+    test('clicking passes options through to mouse events', async function (assert) {
       element = buildInstrumentedElement('div', ['clientX', 'clientY', 'button']);
 
       await click(element, { clientX: 13, clientY: 17, button: 2 });
@@ -104,7 +104,7 @@ module('DOM Helper: click', function(hooks) {
       assert.verifySteps(['mousedown 13 17 2', 'mouseup 13 17 2', 'click 13 17 2']);
     });
 
-    test('clicking accepts modifiers', async function(assert) {
+    test('clicking accepts modifiers', async function (assert) {
       element = buildInstrumentedElement('div', ['clientX', 'clientY', 'button']);
       let handler = e => {
         assert.equal(e.altKey, true);
@@ -115,7 +115,7 @@ module('DOM Helper: click', function(hooks) {
       element.removeEventListener('click', handler);
     });
 
-    test('clicking a div has window set as view by default', async function(assert) {
+    test('clicking a div has window set as view by default', async function (assert) {
       element = buildInstrumentedElement('div', ['view']);
 
       await setupContext(context);
@@ -129,14 +129,14 @@ module('DOM Helper: click', function(hooks) {
     });
   });
 
-  module('focusable element types', function() {
+  module('focusable element types', function () {
     let clickSteps = ['mousedown', 'focus', 'focusin', 'mouseup', 'click'];
 
     if (isIE11) {
       clickSteps = ['mousedown', 'focusin', 'mouseup', 'click', 'focus'];
     }
 
-    test('clicking a input via selector with context set', async function(assert) {
+    test('clicking a input via selector with context set', async function (assert) {
       element = buildInstrumentedElement('input');
 
       await setupContext(context);
@@ -146,7 +146,7 @@ module('DOM Helper: click', function(hooks) {
       assert.strictEqual(document.activeElement, element, 'activeElement updated');
     });
 
-    test('clicking a input via element with context set', async function(assert) {
+    test('clicking a input via element with context set', async function (assert) {
       element = buildInstrumentedElement('input');
 
       await setupContext(context);
@@ -156,7 +156,7 @@ module('DOM Helper: click', function(hooks) {
       assert.strictEqual(document.activeElement, element, 'activeElement updated');
     });
 
-    test('clicking a input via element without context set', async function(assert) {
+    test('clicking a input via element without context set', async function (assert) {
       element = buildInstrumentedElement('input');
 
       await click(element);
@@ -165,7 +165,7 @@ module('DOM Helper: click', function(hooks) {
       assert.strictEqual(document.activeElement, element, 'activeElement updated');
     });
 
-    test('clicking a input via selector without context set', function(assert) {
+    test('clicking a input via selector without context set', function (assert) {
       element = buildInstrumentedElement('input');
 
       assert.rejects(
@@ -174,7 +174,7 @@ module('DOM Helper: click', function(hooks) {
       );
     });
 
-    test('clicking a disabled input does nothing', async function(assert) {
+    test('clicking a disabled input does nothing', async function (assert) {
       element = buildInstrumentedElement('input');
       element.setAttribute('disabled', true);
 
@@ -185,8 +185,8 @@ module('DOM Helper: click', function(hooks) {
     });
   });
 
-  module('elements in different realms', function() {
-    test('clicking an element in a different realm', async function(assert) {
+  module('elements in different realms', function () {
+    test('clicking an element in a different realm', async function (assert) {
       element = document.createElement('iframe');
 
       insertElement(element);

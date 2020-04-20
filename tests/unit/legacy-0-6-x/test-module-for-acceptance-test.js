@@ -43,7 +43,7 @@ moduleForAcceptance('TestModuleForAcceptance | Lifecycle', {
   },
 });
 
-test('Lifecycle is correct', function(assert) {
+test('Lifecycle is correct', function (assert) {
   assert.ok(true);
 });
 
@@ -58,25 +58,25 @@ moduleForAcceptance('TestModuleForAcceptance | Basic acceptance tests', {
   },
 });
 
-test('Basic acceptance test using instance test helpers', function(assert) {
+test('Basic acceptance test using instance test helpers', function (assert) {
   this.application.testHelpers.visit('/');
 
-  this.application.testHelpers.andThen(function() {
+  this.application.testHelpers.andThen(function () {
     let testingElement = document.getElementById('ember-testing');
     assert.equal(testingElement.textContent, 'This is the index page.');
   });
 });
 
-test('Basic acceptance test using global test helpers', function(assert) {
+test('Basic acceptance test using global test helpers', function (assert) {
   window.visit('/');
 
-  window.andThen(function() {
+  window.andThen(function () {
     let testingElement = document.getElementById('ember-testing');
     assert.equal(testingElement.textContent, 'This is the index page.');
   });
 });
 
-test('`toString` returns the test name', function(assert) {
+test('`toString` returns the test name', function (assert) {
   assert.equal(
     this.toString(),
     'test context for: TestModuleForAcceptance | Basic acceptance tests',

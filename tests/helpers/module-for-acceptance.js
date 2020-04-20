@@ -6,7 +6,7 @@ import { setResolverRegistry } from './resolver';
 import QUnitTestAdapter from './qunit-test-adapter';
 import Ember from 'ember';
 
-export default function(name, options = {}) {
+export default function (name, options = {}) {
   module(name, {
     beforeEach() {
       Ember.Test.adapter = QUnitTestAdapter.create();

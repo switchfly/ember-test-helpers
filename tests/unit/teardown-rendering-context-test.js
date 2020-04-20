@@ -10,22 +10,22 @@ import {
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 import setupManualTestWaiter from '../helpers/manual-test-waiter';
 
-module('teardownRenderingContext', function(hooks) {
+module('teardownRenderingContext', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
   setupManualTestWaiter(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     await setupContext(this);
     await setupRenderingContext(this);
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     return teardownContext(this);
   });
 
-  test('clears any attributes added to the ember-testing div', async function(assert) {
+  test('clears any attributes added to the ember-testing div', async function (assert) {
     let beforeTeardownEl = document.getElementById('ember-testing');
     beforeTeardownEl.setAttribute('data-was-set', '');
 
@@ -59,7 +59,7 @@ module('teardownRenderingContext', function(hooks) {
     );
   });
 
-  test('can opt out of waiting for settledness', async function(assert) {
+  test('can opt out of waiting for settledness', async function (assert) {
     this.shouldWait = true;
 
     assert.equal(isSettled(), false, 'should not be settled');

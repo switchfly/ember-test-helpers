@@ -22,19 +22,19 @@ import App from '../../app';
 import config from '../../config/environment';
 import Ember from 'ember';
 
-module('setupContext', function(hooks) {
+module('setupContext', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     setResolverRegistry({
       'service:foo': Service.extend({ isFoo: true }),
     });
   });
 
   let context;
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     if (context) {
       await teardownContext(context);
       context = undefined;
@@ -45,7 +45,7 @@ module('setupContext', function(hooks) {
   });
 
   function overwriteTest(context, key) {
-    test(`throws an error when trying to overwrite this.${key}`, function(assert) {
+    test(`throws an error when trying to overwrite this.${key}`, function (assert) {
       assert.throws(() => {
         context[key] = null;
       }, TypeError);
@@ -53,13 +53,13 @@ module('setupContext', function(hooks) {
   }
 
   function setupContextTests() {
-    module('without options', function(hooks) {
-      hooks.beforeEach(function() {
+    module('without options', function (hooks) {
+      hooks.beforeEach(function () {
         context = {};
         return setupContext(context);
       });
 
-      test('it sets up this.owner', function(assert) {
+      test('it sets up this.owner', function (assert) {
         let { owner } = context;
         assert.ok(owner, 'owner was setup');
         assert.equal(typeof owner.lookup, 'function', 'has expected lookup interface');
@@ -71,18 +71,18 @@ module('setupContext', function(hooks) {
 
       overwriteTest(context, 'owner');
 
-      test('it uses the default resolver if no override specified', function(assert) {
+      test('it uses the default resolver if no override specified', function (assert) {
         let { owner } = context;
         let instance = owner.lookup('service:foo');
         assert.equal(instance.isFoo, true, 'uses the default resolver');
       });
 
-      test('it sets up this.set', function(assert) {
+      test('it sets up this.set', function (assert) {
         context.set('foo', 'bar');
         assert.equal(context.foo, 'bar', 'this.set sets the property');
       });
 
-      test('it sets up this.setProperties', function(assert) {
+      test('it sets up this.setProperties', function (assert) {
         context.setProperties({
           foo: 'bar',
           baz: 'qux',
@@ -92,13 +92,13 @@ module('setupContext', function(hooks) {
         assert.equal(context.baz, 'qux', 'this.setProperties sets the second property');
       });
 
-      test('it sets up this.get', function(assert) {
+      test('it sets up this.get', function (assert) {
         context.set('foo', 'bar');
 
         assert.equal(context.get('foo'), 'bar', 'this.get can read previously set property');
       });
 
-      test('it sets up this.getProperties', function(assert) {
+      test('it sets up this.getProperties', function (assert) {
         context.setProperties({
           foo: 'bar',
           baz: 'qux',
@@ -120,24 +120,24 @@ module('setupContext', function(hooks) {
       overwriteTest(context, 'get');
       overwriteTest(context, 'getProperties');
 
-      test('it calls setContext with the provided context', function(assert) {
+      test('it calls setContext with the provided context', function (assert) {
         assert.equal(getContext(), context);
       });
 
-      test('it sets up test metadata', function(assert) {
+      test('it sets up test metadata', function (assert) {
         let testMetadata = getTestMetadata(context);
 
         assert.deepEqual(testMetadata.setupTypes, ['setupContext']);
       });
 
-      test('it retutns false for isRendering/isApplication in non-rendering/application tests', function(assert) {
+      test('it retutns false for isRendering/isApplication in non-rendering/application tests', function (assert) {
         let testMetadata = getTestMetadata(this);
 
         assert.ok(!testMetadata.isRendering);
         assert.ok(!testMetadata.isApplication);
       });
 
-      test('can be used for unit style testing', function(assert) {
+      test('can be used for unit style testing', function (assert) {
         context.owner.register(
           'service:foo',
           Service.extend({
@@ -152,7 +152,7 @@ module('setupContext', function(hooks) {
         assert.equal(subject.someMethod(), 'hello thar!');
       });
 
-      test('can access a service instance (instead of this.inject.service("thing") in 0.6)', function(assert) {
+      test('can access a service instance (instead of this.inject.service("thing") in 0.6)', function (assert) {
         context.owner.register('service:bar', Service.extend());
         context.owner.register(
           'service:foo',
@@ -174,25 +174,25 @@ module('setupContext', function(hooks) {
         assert.equal(bar.get('someProp'), 'derp', 'property updated');
       });
 
-      test('can pauseTest to be resumed "later"', async function(assert) {
+      test('can pauseTest to be resumed "later"', async function (assert) {
         assert.expect(5);
 
         let promise = context.pauseTest();
 
         // do some random things while "paused"
-        setTimeout(function() {
+        setTimeout(function () {
           assert.step('5 ms');
         }, 5);
 
-        setTimeout(function() {
+        setTimeout(function () {
           assert.step('20 ms');
         }, 20);
 
-        setTimeout(function() {
+        setTimeout(function () {
           assert.step('30 ms');
         }, 30);
 
-        setTimeout(function() {
+        setTimeout(function () {
           assert.step('50 ms');
           context.resumeTest();
         }, 50);
@@ -202,7 +202,7 @@ module('setupContext', function(hooks) {
         assert.verifySteps(['5 ms', '20 ms', '30 ms', '50 ms']);
       });
 
-      test('imported pauseTest and resumeTest allow customizations by test frameworks', async function(assert) {
+      test('imported pauseTest and resumeTest allow customizations by test frameworks', async function (assert) {
         assert.expect(2);
 
         let originalPauseTest = context.pauseTest;
@@ -224,7 +224,7 @@ module('setupContext', function(hooks) {
         await promise;
       });
 
-      test('pauseTest sets up a window.resumeTest to easily resume', async function(assert) {
+      test('pauseTest sets up a window.resumeTest to easily resume', async function (assert) {
         assert.equal(window.resumeTest, undefined, 'precond - starts out as undefined');
 
         let promise = context.pauseTest();
@@ -243,8 +243,8 @@ module('setupContext', function(hooks) {
       });
     });
 
-    module('with custom options', function() {
-      test('it can specify a custom resolver', async function(assert) {
+    module('with custom options', function () {
+      test('it can specify a custom resolver', async function (assert) {
         context = {};
         let resolver = createCustomResolver({
           'service:foo': Service.extend({ isFoo: 'maybe?' }),
@@ -256,7 +256,7 @@ module('setupContext', function(hooks) {
       });
     });
 
-    test('Ember.testing', async function(assert) {
+    test('Ember.testing', async function (assert) {
       assert.notOk(Ember.testing, 'precond - Ember.testing is falsey before setup');
 
       context = {};
@@ -270,8 +270,8 @@ module('setupContext', function(hooks) {
     });
   }
 
-  module('with only application set', function(hooks) {
-    hooks.beforeEach(function() {
+  module('with only application set', function (hooks) {
+    hooks.beforeEach(function () {
       setResolver(null);
       setApplication(application);
     });
@@ -279,8 +279,8 @@ module('setupContext', function(hooks) {
     setupContextTests();
   });
 
-  module('with application and resolver set', function(hooks) {
-    hooks.beforeEach(function() {
+  module('with application and resolver set', function (hooks) {
+    hooks.beforeEach(function () {
       setResolver(resolver);
       setApplication(application);
     });
@@ -288,8 +288,8 @@ module('setupContext', function(hooks) {
     setupContextTests();
   });
 
-  module('with only resolver set', function(hooks) {
-    hooks.beforeEach(function() {
+  module('with only resolver set', function (hooks) {
+    hooks.beforeEach(function () {
       setResolver(resolver);
       setApplication(null);
     });
@@ -297,10 +297,10 @@ module('setupContext', function(hooks) {
     setupContextTests();
   });
 
-  module('initializers', function(hooks) {
+  module('initializers', function (hooks) {
     let isolatedApp;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       const AppConfig = assign({ autoboot: false }, config.APP);
       // .extend() because initializers are stored in the constructor, and we
       // don't want to pollute other tests using an application created from the
@@ -315,7 +315,7 @@ module('setupContext', function(hooks) {
       setApplication(isolatedApp);
     });
 
-    test('run once per test run', async function(assert) {
+    test('run once per test run', async function (assert) {
       let initializerCallCount = 0;
       isolatedApp.initializer({
         name: 'foo',
@@ -331,7 +331,7 @@ module('setupContext', function(hooks) {
       assert.equal(initializerCallCount, 1);
     });
 
-    test('changes to the DOM persist across multiple setupContext() calls', async function(assert) {
+    test('changes to the DOM persist across multiple setupContext() calls', async function (assert) {
       function rootEl() {
         return document.querySelector(isolatedApp.rootElement);
       }

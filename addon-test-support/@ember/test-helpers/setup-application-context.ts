@@ -93,7 +93,7 @@ export function setupRouterSettlednessTracking() {
 
   // hook into teardown to reset local settledness state
   let ORIGINAL_WILL_DESTROY = router.willDestroy;
-  router.willDestroy = function() {
+  router.willDestroy = function () {
     routerTransitionsPending = null;
 
     return ORIGINAL_WILL_DESTROY.apply(this, arguments);

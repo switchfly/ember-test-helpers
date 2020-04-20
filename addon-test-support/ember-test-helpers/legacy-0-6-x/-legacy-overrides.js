@@ -19,7 +19,7 @@ export function preGlimmerSetupIntegrationForComponent() {
 
   (this.registry || this.container).register('component:-test-holder', Component.extend());
 
-  context.render = function(template) {
+  context.render = function (template) {
     // in case `this.render` is called twice, make sure to teardown the first invocation
     module.teardownComponent();
 
@@ -39,19 +39,19 @@ export function preGlimmerSetupIntegrationForComponent() {
     module.component.set('context', context);
     module.component.set('controller', context);
 
-    run(function() {
+    run(function () {
       module.component.appendTo('#ember-testing');
     });
 
     context._element = module.component.element;
   };
 
-  context.$ = function() {
+  context.$ = function () {
     return module.component.$.apply(module.component, arguments);
   };
 
-  context.set = function(key, value) {
-    var ret = run(function() {
+  context.set = function (key, value) {
+    var ret = run(function () {
       return set(context, key, value);
     });
 
@@ -60,8 +60,8 @@ export function preGlimmerSetupIntegrationForComponent() {
     }
   };
 
-  context.setProperties = function(hash) {
-    var ret = run(function() {
+  context.setProperties = function (hash) {
+    var ret = run(function () {
       return setProperties(context, hash);
     });
 
@@ -70,20 +70,20 @@ export function preGlimmerSetupIntegrationForComponent() {
     }
   };
 
-  context.get = function(key) {
+  context.get = function (key) {
     return get(context, key);
   };
 
-  context.getProperties = function() {
+  context.getProperties = function () {
     var args = Array.prototype.slice.call(arguments);
     return getProperties(context, args);
   };
 
-  context.on = function(actionName, handler) {
+  context.on = function (actionName, handler) {
     module.actionHooks[actionName] = handler;
   };
 
-  context.send = function(actionName) {
+  context.send = function (actionName) {
     var hook = module.actionHooks[actionName];
     if (!hook) {
       throw new Error('integration testing template received unexpected action ' + actionName);
@@ -91,7 +91,7 @@ export function preGlimmerSetupIntegrationForComponent() {
     hook.apply(module, Array.prototype.slice.call(arguments, 1));
   };
 
-  context.clearRender = function() {
+  context.clearRender = function () {
     module.teardownComponent();
   };
 }

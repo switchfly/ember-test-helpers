@@ -211,7 +211,7 @@ export default function setupContext(
         configurable: true,
         enumerable: true,
         value(key: string, value: any): any {
-          let ret = run(function() {
+          let ret = run(function () {
             return set(context, key, value);
           });
 
@@ -224,7 +224,7 @@ export default function setupContext(
         configurable: true,
         enumerable: true,
         value(hash: { [key: string]: any }): { [key: string]: any } {
-          let ret = run(function() {
+          let ret = run(function () {
             return setProperties(context, hash);
           });
 

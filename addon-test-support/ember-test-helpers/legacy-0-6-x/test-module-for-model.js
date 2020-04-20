@@ -39,16 +39,16 @@ export default class extends TestModule {
       thingToRegisterWith.register('adapter:application', adapterFactory);
     }
 
-    callbacks.store = function() {
+    callbacks.store = function () {
       var container = this.container;
       return container.lookup('service:store') || container.lookup('store:main');
     };
 
     if (callbacks.subject === defaultSubject) {
-      callbacks.subject = function(options) {
+      callbacks.subject = function (options) {
         var container = this.container;
 
-        return run(function() {
+        return run(function () {
           var store = container.lookup('service:store') || container.lookup('store:main');
           return store.createRecord(modelName, options);
         });

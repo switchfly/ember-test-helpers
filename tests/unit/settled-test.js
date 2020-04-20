@@ -12,16 +12,16 @@ import ajax from '../helpers/ajax';
 
 const WAITER_NAME = 'custom-waiter';
 
-module('settled', function(hooks) {
+module('settled', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
-  hooks.beforeEach(function(assert) {
+  hooks.beforeEach(function (assert) {
     _setupAJAXHooks();
 
     this.confirmSettles = done => {
-      return function() {
+      return function () {
         setTimeout(() => {
           assert.strictEqual(isSettled(), true, 'post cond - isSettled');
           assert.deepEqual(
@@ -49,10 +49,10 @@ module('settled', function(hooks) {
       };
     };
 
-    this.server = new Pretender(function() {
+    this.server = new Pretender(function () {
       this.get(
         '/whazzits',
-        function() {
+        function () {
           return [200, { 'Content-Type': 'text/plain' }, 'Remote Data!'];
         },
         25
@@ -75,19 +75,19 @@ module('settled', function(hooks) {
     this._testWaiter = buildWaiter(WAITER_NAME);
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     Ember.Test.unregisterWaiter(this._legacyWaiter);
     resetWaiters();
     this.server.shutdown();
     _teardownAJAXHooks();
   });
 
-  module('isSettled', function() {
-    test('when no work is scheduled, no requests, waiters completed', function(assert) {
+  module('isSettled', function () {
+    test('when no work is scheduled, no requests, waiters completed', function (assert) {
       assert.strictEqual(isSettled(), true);
     });
 
-    test('when work is scheduled via run.schedule', function(assert) {
+    test('when work is scheduled via run.schedule', function (assert) {
       assert.expect(4);
       let done = assert.async();
 
@@ -98,7 +98,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), false);
     });
 
-    test('when work is scheduled via run.next', function(assert) {
+    test('when work is scheduled via run.next', function (assert) {
       assert.expect(4);
 
       let done = assert.async();
@@ -110,7 +110,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), false);
     });
 
-    test('when work is scheduled via run.later', function(assert) {
+    test('when work is scheduled via run.later', function (assert) {
       assert.expect(4);
 
       let done = assert.async();
@@ -122,7 +122,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), false);
     });
 
-    test('when invocation is within a run loop', function(assert) {
+    test('when invocation is within a run loop', function (assert) {
       assert.expect(3);
 
       assert.strictEqual(isSettled(), true, 'precond');
@@ -134,7 +134,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), true, 'post cond');
     });
 
-    test('when AJAX requests are pending', function(assert) {
+    test('when AJAX requests are pending', function (assert) {
       assert.expect(4);
 
       let done = assert.async();
@@ -146,7 +146,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), false);
     });
 
-    test('when legacy waiters are pending', function(assert) {
+    test('when legacy waiters are pending', function (assert) {
       assert.expect(3);
 
       assert.strictEqual(isSettled(), true, 'precond');
@@ -160,7 +160,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), true, 'post cond');
     });
 
-    test('when test waiters are pending', function(assert) {
+    test('when test waiters are pending', function (assert) {
       assert.expect(3);
 
       let waiterItem = {};
@@ -177,8 +177,8 @@ module('settled', function(hooks) {
     });
   });
 
-  module('getSettledState', function() {
-    test('when no work is scheduled, no requests, waiters completed', function(assert) {
+  module('getSettledState', function () {
+    test('when no work is scheduled, no requests, waiters completed', function (assert) {
       assert.deepEqual(getSettledState(), {
         hasPendingRequests: false,
         hasPendingTimers: false,
@@ -196,7 +196,7 @@ module('settled', function(hooks) {
       });
     });
 
-    test('when work is scheduled via run.schedule', function(assert) {
+    test('when work is scheduled via run.schedule', function (assert) {
       assert.expect(4);
       let done = assert.async();
 
@@ -221,7 +221,7 @@ module('settled', function(hooks) {
       });
     });
 
-    test('when work is scheduled via run.next', function(assert) {
+    test('when work is scheduled via run.next', function (assert) {
       assert.expect(4);
 
       let done = assert.async();
@@ -247,7 +247,7 @@ module('settled', function(hooks) {
       });
     });
 
-    test('when work is scheduled via run.later', function(assert) {
+    test('when work is scheduled via run.later', function (assert) {
       assert.expect(4);
 
       let done = assert.async();
@@ -273,7 +273,7 @@ module('settled', function(hooks) {
       });
     });
 
-    test('when invocation is within a run loop', function(assert) {
+    test('when invocation is within a run loop', function (assert) {
       assert.expect(3);
 
       assert.strictEqual(isSettled(), true, 'precond');
@@ -299,7 +299,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), true, 'post cond');
     });
 
-    test('when AJAX requests are pending', function(assert) {
+    test('when AJAX requests are pending', function (assert) {
       assert.expect(4);
 
       let done = assert.async();
@@ -348,7 +348,7 @@ module('settled', function(hooks) {
       }
     });
 
-    test('when legacy waiters are pending', function(assert) {
+    test('when legacy waiters are pending', function (assert) {
       assert.expect(3);
 
       assert.strictEqual(isSettled(), true, 'precond');
@@ -376,7 +376,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), true, 'post cond');
     });
 
-    test('when test waiters are pending', function(assert) {
+    test('when test waiters are pending', function (assert) {
       assert.expect(3);
 
       let waiterItem = {};
@@ -413,7 +413,7 @@ module('settled', function(hooks) {
       assert.strictEqual(isSettled(), true, 'post cond');
     });
 
-    test('all the things!', function(assert) {
+    test('all the things!', function (assert) {
       assert.expect(6);
       let done = assert.async();
       assert.strictEqual(isSettled(), true, 'precond');

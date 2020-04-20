@@ -14,14 +14,14 @@ if (isIE11) {
   blurSteps = ['focusout', 'blur'];
 }
 
-module('DOM Helper: blur', function(hooks) {
+module('DOM Helper: blur', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
   let context, elementWithFocus;
 
-  hooks.beforeEach(async function(assert) {
+  hooks.beforeEach(async function (assert) {
     context = {};
 
     // create the element and focus in preparation for blur testing
@@ -33,7 +33,7 @@ module('DOM Helper: blur', function(hooks) {
     assert.equal(document.activeElement, elementWithFocus, 'activeElement updated');
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     if (elementWithFocus) {
       elementWithFocus.parentNode.removeChild(elementWithFocus);
     }
@@ -44,7 +44,7 @@ module('DOM Helper: blur', function(hooks) {
     document.getElementById('ember-testing').innerHTML = '';
   });
 
-  test('does not run sync', async function(assert) {
+  test('does not run sync', async function (assert) {
     let promise = blur(elementWithFocus);
 
     assert.verifySteps([]);
@@ -54,7 +54,7 @@ module('DOM Helper: blur', function(hooks) {
     assert.verifySteps(blurSteps);
   });
 
-  test('rejects if selector is not found', async function(assert) {
+  test('rejects if selector is not found', async function (assert) {
     elementWithFocus.setAttribute('data-skip-steps', true);
 
     await setupContext(context);
@@ -65,7 +65,7 @@ module('DOM Helper: blur', function(hooks) {
     );
   });
 
-  test('bluring via selector with context set', async function(assert) {
+  test('bluring via selector with context set', async function (assert) {
     await setupContext(context);
     await blur(`#${elementWithFocus.id}`);
 
@@ -73,7 +73,7 @@ module('DOM Helper: blur', function(hooks) {
     assert.notEqual(document.activeElement, elementWithFocus, 'activeElement updated');
   });
 
-  test('bluring via selector without context set', function(assert) {
+  test('bluring via selector without context set', function (assert) {
     elementWithFocus.setAttribute('data-skip-steps', true);
 
     assert.rejects(
@@ -82,7 +82,7 @@ module('DOM Helper: blur', function(hooks) {
     );
   });
 
-  test('bluring via element with context set', async function(assert) {
+  test('bluring via element with context set', async function (assert) {
     await setupContext(context);
     await blur(elementWithFocus);
 
@@ -90,7 +90,7 @@ module('DOM Helper: blur', function(hooks) {
     assert.notEqual(document.activeElement, elementWithFocus, 'activeElement updated');
   });
 
-  test('bluring via element without context set', async function(assert) {
+  test('bluring via element without context set', async function (assert) {
     await blur(elementWithFocus);
 
     assert.verifySteps(blurSteps);

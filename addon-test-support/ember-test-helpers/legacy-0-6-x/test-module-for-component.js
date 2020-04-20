@@ -64,7 +64,7 @@ export default class extends TestModule {
     if (this.isUnitTest || this.isLegacy) {
       this.setupSteps.push(this.setupComponentUnitTest);
     } else {
-      this.callbacks.subject = function() {
+      this.callbacks.subject = function () {
         throw new Error(
           "component integration tests do not support `subject()`. Instead, render the component as if it were HTML: `this.render('<my-component foo=true>');`. For more information, read: http://guides.emberjs.com/current/testing/testing-components/"
         );
@@ -122,24 +122,24 @@ export default class extends TestModule {
 
     context._element = null;
 
-    this.callbacks.render = function() {
+    this.callbacks.render = function () {
       var subject;
 
-      run(function() {
+      run(function () {
         subject = context.subject();
         subject.appendTo('#ember-testing');
       });
 
       context._element = subject.element;
 
-      _this.teardownSteps.unshift(function() {
-        run(function() {
+      _this.teardownSteps.unshift(function () {
+        run(function () {
           tryInvoke(subject, 'destroy');
         });
       });
     };
 
-    this.callbacks.append = function() {
+    this.callbacks.append = function () {
       deprecate(
         'this.append() is deprecated. Please use this.render() or this.$() instead.',
         false,
@@ -151,7 +151,7 @@ export default class extends TestModule {
       return context.$();
     };
 
-    context.$ = function() {
+    context.$ = function () {
       this.render();
       var subject = this.subject();
 
@@ -185,7 +185,7 @@ export default class extends TestModule {
     }
 
     if (!this.isUnitTest && !this.isLegacy) {
-      this.context.factory = function() {};
+      this.context.factory = function () {};
     }
   }
 
@@ -247,7 +247,7 @@ export function setupComponentIntegrationTest() {
     });
   }
 
-  context.render = function(template) {
+  context.render = function (template) {
     if (!template) {
       throw new Error('in a component integration test you must pass a template to `render()`');
     }
@@ -298,14 +298,14 @@ export function setupComponentIntegrationTest() {
     }
   };
 
-  context.$ = function(selector) {
+  context.$ = function (selector) {
     // emulates Ember internal behavor of `this.$` in a component
     // https://github.com/emberjs/ember.js/blob/v2.5.1/packages/ember-views/lib/views/states/has_element.js#L18
     return selector ? jQuery(selector, element) : jQuery(element);
   };
 
-  context.set = function(key, value) {
-    var ret = run(function() {
+  context.set = function (key, value) {
+    var ret = run(function () {
       return set(context, key, value);
     });
 
@@ -314,8 +314,8 @@ export function setupComponentIntegrationTest() {
     }
   };
 
-  context.setProperties = function(hash) {
-    var ret = run(function() {
+  context.setProperties = function (hash) {
+    var ret = run(function () {
       return setProperties(context, hash);
     });
 
@@ -324,20 +324,20 @@ export function setupComponentIntegrationTest() {
     }
   };
 
-  context.get = function(key) {
+  context.get = function (key) {
     return get(context, key);
   };
 
-  context.getProperties = function() {
+  context.getProperties = function () {
     var args = Array.prototype.slice.call(arguments);
     return getProperties(context, args);
   };
 
-  context.on = function(actionName, handler) {
+  context.on = function (actionName, handler) {
     module.actionHooks[actionName] = handler;
   };
 
-  context.send = function(actionName) {
+  context.send = function (actionName) {
     var hook = module.actionHooks[actionName];
     if (!hook) {
       throw new Error('integration testing template received unexpected action ' + actionName);
@@ -345,8 +345,8 @@ export function setupComponentIntegrationTest() {
     hook.apply(module.context, Array.prototype.slice.call(arguments, 1));
   };
 
-  context.clearRender = function() {
-    run(function() {
+  context.clearRender = function () {
+    run(function () {
       toplevelView.setOutletState({
         render: {
           owner: module.container,

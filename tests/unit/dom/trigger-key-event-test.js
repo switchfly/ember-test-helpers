@@ -3,14 +3,14 @@ import { triggerKeyEvent, setupContext, teardownContext } from '@ember/test-help
 import { buildInstrumentedElement, insertElement } from '../../helpers/events';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 
-module('DOM Helper: triggerKeyEvent', function(hooks) {
+module('DOM Helper: triggerKeyEvent', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
   let context, element;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     // used to simulate how `setupRenderingTest` (and soon `setupApplicationTest`)
     // set context.element to the rootElement
     context = {
@@ -18,7 +18,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     };
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     element.setAttribute('data-skip-steps', true);
 
     if (element) {
@@ -32,7 +32,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     document.getElementById('ember-testing').innerHTML = '';
   });
 
-  test('rejects if event type is missing', async function(assert) {
+  test('rejects if event type is missing', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -40,7 +40,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     assert.rejects(triggerKeyEvent(element), /Must provide an `eventType` to `triggerKeyEvent`/);
   });
 
-  test('rejects if event type is invalid', async function(assert) {
+  test('rejects if event type is invalid', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -51,7 +51,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     );
   });
 
-  test('rejects if key code is missing', async function(assert) {
+  test('rejects if key code is missing', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -62,7 +62,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     );
   });
 
-  test('rejects if empty string is passed in', async function(assert) {
+  test('rejects if empty string is passed in', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -73,7 +73,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     );
   });
 
-  test('rejects if lower case key is passed in', async function(assert) {
+  test('rejects if lower case key is passed in', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -84,7 +84,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     );
   });
 
-  test('rejects if keyCode is passed as a string', async function(assert) {
+  test('rejects if keyCode is passed as a string', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -95,7 +95,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     );
   });
 
-  test('triggering via selector with context set', async function(assert) {
+  test('triggering via selector with context set', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -104,7 +104,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     assert.verifySteps(['keydown']);
   });
 
-  test('triggering via element with context set', async function(assert) {
+  test('triggering via element with context set', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -113,7 +113,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     assert.verifySteps(['keydown']);
   });
 
-  test('triggering via element without context set', async function(assert) {
+  test('triggering via element without context set', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await triggerKeyEvent(element, 'keydown', 13);
@@ -121,7 +121,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     assert.verifySteps(['keydown']);
   });
 
-  test('triggering via selector without context set', function(assert) {
+  test('triggering via selector without context set', function (assert) {
     element = buildInstrumentedElement('div');
 
     assert.rejects(
@@ -130,8 +130,8 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     );
   });
 
-  ['ctrl', 'shift', 'alt', 'meta'].forEach(function(modifierType) {
-    test(`triggering passing with ${modifierType} pressed`, async function(assert) {
+  ['ctrl', 'shift', 'alt', 'meta'].forEach(function (modifierType) {
+    test(`triggering passing with ${modifierType} pressed`, async function (assert) {
       element = buildInstrumentedElement('div');
       element.addEventListener('keypress', e => {
         assert.ok(e[`${modifierType}Key`], `has ${modifierType} indicated`);
@@ -144,7 +144,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     });
   });
 
-  test(`can combine modifier keys`, async function(assert) {
+  test(`can combine modifier keys`, async function (assert) {
     element = buildInstrumentedElement('div');
     element.addEventListener('keypress', e => {
       assert.ok(e.ctrlKey, `has ctrlKey indicated`);
@@ -157,7 +157,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     assert.verifySteps(['keypress']);
   });
 
-  test('The value of the `event.key` is properly inferred from the given keycode and modifiers', async function(assert) {
+  test('The value of the `event.key` is properly inferred from the given keycode and modifiers', async function (assert) {
     element = document.createElement('div');
     insertElement(element);
     async function checkKey(keyCode, key, modifiers) {
@@ -193,7 +193,7 @@ module('DOM Helper: triggerKeyEvent', function(hooks) {
     await checkKey(90, 'Z', { shiftKey: true });
   });
 
-  test('The value of the `event.keyCode` is properly inferred from the given key', async function(assert) {
+  test('The value of the `event.keyCode` is properly inferred from the given key', async function (assert) {
     element = document.createElement('div');
     insertElement(element);
     async function checkKeyCode(key, keyCode) {

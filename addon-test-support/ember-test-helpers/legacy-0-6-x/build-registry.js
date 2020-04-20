@@ -1,4 +1,4 @@
-/* globals global, self, requirejs */
+/* globals global, requirejs */
 
 import ApplicationInstance from '@ember/application/instance';
 
@@ -25,7 +25,7 @@ function exposeRegistryMethodsWithoutDeprecations(container) {
 
   function exposeRegistryMethod(container, method) {
     if (method in container) {
-      container[method] = function() {
+      container[method] = function () {
         return container._registry[method].apply(container._registry, arguments);
       };
     }
@@ -36,7 +36,7 @@ function exposeRegistryMethodsWithoutDeprecations(container) {
   }
 }
 
-var Owner = (function() {
+var Owner = (function () {
   if (Ember._RegistryProxyMixin && Ember._ContainerProxyMixin) {
     return EmberObject.extend(Ember._RegistryProxyMixin, Ember._ContainerProxyMixin, {
       _emberTestHelpersMockOwner: true,
@@ -48,7 +48,7 @@ var Owner = (function() {
   });
 })();
 
-export default function(resolver) {
+export default function (resolver) {
   var fallbackRegistry, registry, container;
   var namespace = EmberObject.create({
     Resolver: {

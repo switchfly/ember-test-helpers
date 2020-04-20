@@ -84,7 +84,7 @@ function keyEntry(element: FormControl, character: string): () => void {
   let options = { shiftKey };
   let characterKey = character.toUpperCase();
 
-  return function() {
+  return function () {
     return nextTickPromise()
       .then(() => __triggerKeyEvent__(element, 'keydown', characterKey, options))
       .then(() => __triggerKeyEvent__(element, 'keypress', characterKey, options))

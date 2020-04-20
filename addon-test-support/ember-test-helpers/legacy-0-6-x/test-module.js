@@ -112,7 +112,7 @@ export default class extends AbstractTestModule {
     var subjectName = this.subjectName;
     var container = this.container;
 
-    var factory = function() {
+    var factory = function () {
       return container.factoryFor
         ? container.factoryFor(subjectName)
         : container.lookupFactory(subjectName);
@@ -142,10 +142,10 @@ export default class extends AbstractTestModule {
     if (Ember.inject) {
       var keys = (Object.keys || keys)(Ember.inject);
 
-      keys.forEach(function(typeName) {
-        context.inject[typeName] = function(name, opts) {
+      keys.forEach(function (typeName) {
+        context.inject[typeName] = function (name, opts) {
           var alias = (opts && opts.as) || name;
-          run(function() {
+          run(function () {
             set(context, alias, module.container.lookup(typeName + ':' + name));
           });
         };
@@ -157,7 +157,7 @@ export default class extends AbstractTestModule {
     var subject = this.cache.subject;
 
     if (subject) {
-      run(function() {
+      run(function () {
         tryInvoke(subject, 'destroy');
       });
     }
@@ -165,7 +165,7 @@ export default class extends AbstractTestModule {
 
   teardownContainer() {
     var container = this.container;
-    run(function() {
+    run(function () {
       container.destroy();
     });
   }
@@ -198,7 +198,7 @@ export default class extends AbstractTestModule {
     var callbacks = this.callbacks;
     var factory = context.factory;
 
-    context[key] = function(options) {
+    context[key] = function (options) {
       if (_this.cachedCalls[key]) {
         return _this.cache[key];
       }
@@ -286,7 +286,7 @@ export default class extends AbstractTestModule {
     }
 
     if (!this.registry) {
-      this.container.resolver = function() {};
+      this.container.resolver = function () {};
     }
   }
 

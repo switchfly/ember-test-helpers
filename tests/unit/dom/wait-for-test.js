@@ -2,19 +2,19 @@ import { module, test } from 'qunit';
 import { waitFor, setupContext, teardownContext } from '@ember/test-helpers';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 
-module('DOM Helper: waitFor', function(hooks) {
+module('DOM Helper: waitFor', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
   let context, rootElement;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     context = {};
     rootElement = document.getElementById('ember-testing');
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     // only teardown if setupContext was called
     if (context.owner) {
       await teardownContext(context);
@@ -22,14 +22,14 @@ module('DOM Helper: waitFor', function(hooks) {
     document.getElementById('ember-testing').innerHTML = '';
   });
 
-  test('wait for selector without context set', async function(assert) {
+  test('wait for selector without context set', async function (assert) {
     assert.rejects(
       waitFor('.something'),
       /Must setup rendering context before attempting to interact with elements/
     );
   });
 
-  test('wait for selector', async function(assert) {
+  test('wait for selector', async function (assert) {
     await setupContext(context);
 
     let waitPromise = waitFor('.something');
@@ -43,7 +43,7 @@ module('DOM Helper: waitFor', function(hooks) {
     assert.equal(element.textContent, 'Hi!');
   });
 
-  test('wait for count of selector', async function(assert) {
+  test('wait for count of selector', async function (assert) {
     await setupContext(context);
 
     let waitPromise = waitFor('.something', { count: 2 });
@@ -61,10 +61,13 @@ module('DOM Helper: waitFor', function(hooks) {
 
     let elements = await waitPromise;
 
-    assert.deepEqual(elements.map(e => e.textContent), ['Hi!', 'Bye!']);
+    assert.deepEqual(
+      elements.map(e => e.textContent),
+      ['Hi!', 'Bye!']
+    );
   });
 
-  test('wait for selector with timeout', async function(assert) {
+  test('wait for selector with timeout', async function (assert) {
     assert.expect(2);
 
     await setupContext(context);
@@ -79,7 +82,7 @@ module('DOM Helper: waitFor', function(hooks) {
     }
   });
 
-  test('wait for selector with timeoutMessage', async function(assert) {
+  test('wait for selector with timeoutMessage', async function (assert) {
     assert.expect(1);
 
     await setupContext(context);

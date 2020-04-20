@@ -3,14 +3,14 @@ import { triggerEvent, setupContext, teardownContext } from '@ember/test-helpers
 import { buildInstrumentedElement } from '../../helpers/events';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 
-module('DOM Helper: triggerEvent', function(hooks) {
+module('DOM Helper: triggerEvent', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
   let context, element;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     // used to simulate how `setupRenderingTest` (and soon `setupApplicationTest`)
     // set context.element to the rootElement
     context = {
@@ -18,7 +18,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     };
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     element.setAttribute('data-skip-steps', true);
 
     if (element) {
@@ -32,7 +32,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     document.getElementById('ember-testing').innerHTML = '';
   });
 
-  test('can trigger arbitrary event types', async function(assert) {
+  test('can trigger arbitrary event types', async function (assert) {
     element = buildInstrumentedElement('div');
     element.addEventListener('fliberty', e => {
       assert.step('fliberty');
@@ -45,7 +45,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     assert.verifySteps(['fliberty']);
   });
 
-  test('triggering event via selector with context set fires the given event type', async function(assert) {
+  test('triggering event via selector with context set fires the given event type', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -54,7 +54,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     assert.verifySteps(['mouseenter']);
   });
 
-  test('triggering event via element with context set fires the given event type', async function(assert) {
+  test('triggering event via element with context set fires the given event type', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -63,7 +63,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     assert.verifySteps(['mouseenter']);
   });
 
-  test('triggering event via element without context set fires the given event type', async function(assert) {
+  test('triggering event via element without context set fires the given event type', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await triggerEvent(element, 'mouseenter');
@@ -71,7 +71,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     assert.verifySteps(['mouseenter']);
   });
 
-  test('triggering event via selector without context set', function(assert) {
+  test('triggering event via selector without context set', function (assert) {
     element = buildInstrumentedElement('div');
 
     assert.rejects(
@@ -80,7 +80,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     );
   });
 
-  test('does not run sync', async function(assert) {
+  test('does not run sync', async function (assert) {
     element = buildInstrumentedElement('div');
 
     let promise = triggerEvent(element, 'mouseenter');
@@ -92,7 +92,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     assert.verifySteps(['mouseenter']);
   });
 
-  test('rejects if selector is not found', async function(assert) {
+  test('rejects if selector is not found', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -103,7 +103,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     );
   });
 
-  test('rejects if event type is not passed', async function(assert) {
+  test('rejects if event type is not passed', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -111,7 +111,7 @@ module('DOM Helper: triggerEvent', function(hooks) {
     assert.rejects(triggerEvent(element), /Must provide an `eventType` to `triggerEvent`/);
   });
 
-  test('events properly bubble upwards', async function(assert) {
+  test('events properly bubble upwards', async function (assert) {
     await setupContext(context);
     element = buildInstrumentedElement('div');
     element.innerHTML = `

@@ -10,18 +10,18 @@ if (isIE11) {
   clickSteps = ['focusin', 'input', 'change', 'focus'];
 }
 
-module('DOM Helper: fillIn', function(hooks) {
+module('DOM Helper: fillIn', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
   let context, element;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     context = {};
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     element.setAttribute('data-skip-steps', true);
 
     if (element) {
@@ -34,7 +34,7 @@ module('DOM Helper: fillIn', function(hooks) {
     document.getElementById('ember-testing').innerHTML = '';
   });
 
-  test('filling in a non-fillable element', async function(assert) {
+  test('filling in a non-fillable element', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -44,7 +44,7 @@ module('DOM Helper: fillIn', function(hooks) {
     );
   });
 
-  test('rejects if selector is not found', async function(assert) {
+  test('rejects if selector is not found', async function (assert) {
     element = buildInstrumentedElement('div');
 
     await setupContext(context);
@@ -55,13 +55,13 @@ module('DOM Helper: fillIn', function(hooks) {
     );
   });
 
-  test('rejects if text to fill in is not provided', async function(assert) {
+  test('rejects if text to fill in is not provided', async function (assert) {
     element = buildInstrumentedElement('input');
 
     assert.rejects(fillIn(element), /Must provide `text` when calling `fillIn`/);
   });
 
-  test('filling an input via selector without context set', async function(assert) {
+  test('filling an input via selector without context set', async function (assert) {
     element = buildInstrumentedElement('input');
 
     assert.rejects(
@@ -70,7 +70,7 @@ module('DOM Helper: fillIn', function(hooks) {
     );
   });
 
-  test('does not run sync', async function(assert) {
+  test('does not run sync', async function (assert) {
     element = buildInstrumentedElement('input');
 
     let promise = fillIn(element, 'foo');
@@ -84,7 +84,7 @@ module('DOM Helper: fillIn', function(hooks) {
     assert.equal(element.value, 'foo');
   });
 
-  test('filling a textarea via selector with context set', async function(assert) {
+  test('filling a textarea via selector with context set', async function (assert) {
     element = buildInstrumentedElement('textarea');
 
     await setupContext(context);
@@ -95,7 +95,7 @@ module('DOM Helper: fillIn', function(hooks) {
     assert.equal(element.value, 'foo');
   });
 
-  test('filling an input via element with context set', async function(assert) {
+  test('filling an input via element with context set', async function (assert) {
     element = buildInstrumentedElement('textarea');
 
     await setupContext(context);
@@ -106,7 +106,7 @@ module('DOM Helper: fillIn', function(hooks) {
     assert.equal(element.value, 'foo');
   });
 
-  test('filling an input via selector with context set', async function(assert) {
+  test('filling an input via selector with context set', async function (assert) {
     element = buildInstrumentedElement('input');
 
     await setupContext(context);
@@ -117,7 +117,7 @@ module('DOM Helper: fillIn', function(hooks) {
     assert.equal(element.value, 'foo');
   });
 
-  test('filling an input via element with context set', async function(assert) {
+  test('filling an input via element with context set', async function (assert) {
     element = buildInstrumentedElement('input');
 
     await setupContext(context);
@@ -128,7 +128,7 @@ module('DOM Helper: fillIn', function(hooks) {
     assert.equal(element.value, 'foo');
   });
 
-  test('filling a content editable div via element with context set', async function(assert) {
+  test('filling a content editable div via element with context set', async function (assert) {
     element = buildInstrumentedElement('div');
     element.setAttribute('contenteditable', '');
 
@@ -140,7 +140,7 @@ module('DOM Helper: fillIn', function(hooks) {
     assert.equal(element.innerHTML, 'foo');
   });
 
-  test('filling an input via element without context set', async function(assert) {
+  test('filling an input via element without context set', async function (assert) {
     element = buildInstrumentedElement('input');
 
     await fillIn(element, 'foo');
@@ -150,7 +150,7 @@ module('DOM Helper: fillIn', function(hooks) {
     assert.equal(element.value, 'foo');
   });
 
-  test('filling an input via selector with empty string', async function(assert) {
+  test('filling an input via selector with empty string', async function (assert) {
     element = buildInstrumentedElement('input');
 
     await setupContext(context);

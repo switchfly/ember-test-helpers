@@ -34,7 +34,7 @@ function moduleForComponent(name, description, callbacks) {
 var PrettyColor = Component.extend({
   classNames: ['pretty-color'],
   attributeBindings: ['style'],
-  style: computed('name', function() {
+  style: computed('name', function () {
     return htmlSafe('color: ' + this.get('name') + ';');
   }),
 
@@ -44,7 +44,7 @@ var PrettyColor = Component.extend({
 });
 
 var ColorController = Controller.extend({
-  hexa: computed('model', function() {
+  hexa: computed('model', function () {
     switch (this.get('model')) {
       case 'red':
         return '0xFF0000';
@@ -95,7 +95,7 @@ moduleForComponent('x-foo', {
   },
 });
 
-test('renders', function(assert) {
+test('renders', function (assert) {
   assert.expect(2);
   var component = this.subject();
   assert.equal(component._state, 'preRender');
@@ -104,7 +104,7 @@ test('renders', function(assert) {
 });
 
 if (hasjQuery()) {
-  test('append', function(assert) {
+  test('append', function (assert) {
     assert.expect(4);
 
     var $el;
@@ -122,7 +122,7 @@ if (hasjQuery()) {
   });
 }
 
-test('yields', function(assert) {
+test('yields', function (assert) {
   assert.expect(2);
   var component = this.subject({
     layout: hbs`yield me`,
@@ -132,7 +132,7 @@ test('yields', function(assert) {
   assert.equal(component._state, 'inDOM');
 });
 
-test('can lookup components in its layout', function(assert) {
+test('can lookup components in its layout', function (assert) {
   assert.expect(1);
   var component = this.subject({
     layout: hbs`{{x-foo id='yodawg-i-heard-you-liked-x-foo-in-ur-x-foo'}}`,
@@ -142,7 +142,7 @@ test('can lookup components in its layout', function(assert) {
 });
 
 if (hasEmberVersion(1, 11)) {
-  test('can use the component keyword in its layout', function(assert) {
+  test('can use the component keyword in its layout', function (assert) {
     assert.expect(1);
     var component = this.subject({
       colors: ['red', 'green', 'blue'],
@@ -153,7 +153,7 @@ if (hasEmberVersion(1, 11)) {
   });
 }
 
-test('clears out views from test to test', function(assert) {
+test('clears out views from test to test', function (assert) {
   assert.expect(1);
   this.subject({
     layout: hbs`{{x-foo id='yodawg-i-heard-you-liked-x-foo-in-ur-x-foo'}}`,
@@ -171,25 +171,25 @@ moduleForComponent('pretty-color', {
   },
 });
 
-test('className', function(assert) {
+test('className', function (assert) {
   this.render();
   assert.ok(this._element.classList.contains('pretty-color'));
 });
 
-test('template', function(assert) {
+test('template', function (assert) {
   var component = this.subject();
 
   this.render();
   assert.equal(this._element.textContent, 'Pretty Color: ');
 
-  run(function() {
+  run(function () {
     component.set('name', 'green');
   });
 
   assert.equal(this._element.textContent, 'Pretty Color: green');
 });
 
-test('it can access the element', function(assert) {
+test('it can access the element', function (assert) {
   this.subject({ name: 'green' });
   this.render();
 
@@ -197,7 +197,7 @@ test('it can access the element', function(assert) {
 });
 
 if (hasjQuery()) {
-  test('$', function(assert) {
+  test('$', function (assert) {
     this.subject({ name: 'green' });
 
     assert.equal(this.$('.color-name').text(), 'green');
@@ -220,7 +220,7 @@ moduleForComponent('pretty-color', 'component:pretty-color -- this.render in set
   },
 });
 
-test('className', function(assert) {
+test('className', function (assert) {
   // calling `this.$` or `this.subject.$` would
   // force it to `render` initially, so we access the `ember-testing`
   // div contents directly
@@ -228,7 +228,7 @@ test('className', function(assert) {
   assert.equal(testingElement.textContent, 'Pretty Color: red');
 });
 
-test('`toString` returns the test subject', function(assert) {
+test('`toString` returns the test subject', function (assert) {
   assert.equal(
     this.toString(),
     'test context for: component:pretty-color',
@@ -247,7 +247,7 @@ moduleForComponent('boring-color', 'component:boring-color -- still in DOM in wi
   },
 });
 
-QUnit.skip('className', function(assert) {
+QUnit.skip('className', function (assert) {
   assert.expect(1);
   // the assertion is in the willDestroyElement() hook of the component
 });
@@ -263,14 +263,14 @@ moduleForComponent(
   }
 );
 
-test('can handle click', function(assert) {
+test('can handle click', function (assert) {
   assert.expect(1); // assert in pretty-color `click` handler above
 
   var component = this.subject();
 
   this.render();
 
-  run(function() {
+  run(function () {
     component.element.click();
   });
 });
@@ -284,17 +284,17 @@ moduleForComponent('changing-color', 'component:changing-color -- handles closur
 });
 
 if (hasEmberVersion(1, 13)) {
-  test('handles a closure actions', function(assert) {
+  test('handles a closure actions', function (assert) {
     assert.expect(1);
-    this.on('colorChange', function(arg) {
+    this.on('colorChange', function (arg) {
       assert.equal(arg, 'foo');
     });
     this.render(hbs`{{changing-color change=(action 'colorChange')}}`);
   });
 
-  test('handles a closure actions when set on the test context', function(assert) {
+  test('handles a closure actions when set on the test context', function (assert) {
     assert.expect(1);
-    this.set('colorChange', function(arg) {
+    this.set('colorChange', function (arg) {
       assert.equal(arg, 'foo');
     });
     this.render(hbs`{{changing-color change=(action colorChange)}}`);
@@ -316,13 +316,13 @@ QUnit.module('moduleForComponent: can be invoked with only the component name', 
   },
 });
 
-test('it allows missing callbacks', function(assert) {
+test('it allows missing callbacks', function (assert) {
   assert.ok(true, 'no errors are thrown');
 });
 
 module('moduleForComponent: will not raise deprecation if needs is specified');
 
-test('deprecation is not raised', function(assert) {
+test('deprecation is not raised', function (assert) {
   setupRegistry();
   assert.noDeprecations(() => {
     testModule = new TestModuleForComponent('pretty-color', {
@@ -348,7 +348,7 @@ module('moduleForComponent: can be invoked with the component name and descripti
   },
 });
 
-test('it allows missing callbacks', function(assert) {
+test('it allows missing callbacks', function (assert) {
   assert.ok(true, 'no errors are thrown');
 });
 
@@ -368,7 +368,7 @@ QUnit.module('moduleForComponent: handles errors thrown during setup', {
 
     testModule
       .setup()
-      .catch(function(error) {
+      .catch(function (error) {
         assert.ok(
           error.message.indexOf('mis:sing') > -1,
           'correct error was thrown from module setup'
@@ -381,7 +381,7 @@ QUnit.module('moduleForComponent: handles errors thrown during setup', {
   },
 });
 
-test('it happens', function(assert) {
+test('it happens', function (assert) {
   assert.ok(true, 'errors are properly thrown/handled');
 });
 
@@ -394,39 +394,39 @@ moduleForComponent('Component Integration Tests', {
   },
 });
 
-test('it can render a template', function(assert) {
+test('it can render a template', function (assert) {
   this.render(hbs`<span>Hello</span>`);
   let actual = this._element.querySelector('span').textContent;
   assert.equal(actual, 'Hello');
 });
 
-test('it can access the element', function(assert) {
+test('it can access the element', function (assert) {
   this.render(hbs`<span>Hello</span>`);
   assert.equal(this._element.textContent, 'Hello');
 });
 
 if (hasEmberVersion(1, 11)) {
-  test('it can render a link-to', function(assert) {
+  test('it can render a link-to', function (assert) {
     this.render(hbs`{{link-to 'Hi' 'index'}}`);
     assert.ok(true, 'it renders without fail');
   });
 }
 
-test('it complains if you try to use bare render', function(assert) {
+test('it complains if you try to use bare render', function (assert) {
   var self = this;
-  assert.throws(function() {
+  assert.throws(function () {
     self.render();
   }, /in a component integration test you must pass a template to `render\(\)`/);
 });
 
-test('it complains if you try to use subject()', function(assert) {
+test('it complains if you try to use subject()', function (assert) {
   var self = this;
-  assert.throws(function() {
+  assert.throws(function () {
     self.subject();
   }, /component integration tests do not support `subject\(\)`\./);
 });
 
-test('it can access the full container', function(assert) {
+test('it can access the full container', function (assert) {
   this.set('myColor', 'red');
   this.render(hbs`{{my-component name=myColor}}`);
 
@@ -435,27 +435,27 @@ test('it can access the full container', function(assert) {
   assert.equal(this._element.querySelector('span').textContent, 'blue');
 });
 
-test('it can handle actions', function(assert) {
+test('it can handle actions', function (assert) {
   var handlerArg;
   this.render(hbs`<button {{action "didFoo" 42}} />`);
-  this.on('didFoo', function(thing) {
+  this.on('didFoo', function (thing) {
     handlerArg = thing;
   });
   this._element.querySelector('button').click();
   assert.equal(handlerArg, 42);
 });
 
-test('it accepts precompiled templates', function(assert) {
+test('it accepts precompiled templates', function (assert) {
   this.render(hbs`<span>Hello</span>`);
   assert.equal(this._element.querySelector('span').textContent, 'Hello');
 });
 
-test('it supports DOM events', function(assert) {
+test('it supports DOM events', function (assert) {
   setResolverRegistry({
     'component:my-component': Component.extend({
       value: 0,
       layout: hbs`<span class='target'>Click to increment!</span><span class='value'>{{value}}</span>`,
-      incrementOnClick: on('click', function() {
+      incrementOnClick: on('click', function () {
         this.incrementProperty('value');
       }),
     }),
@@ -465,7 +465,7 @@ test('it supports DOM events', function(assert) {
   assert.equal(this._element.querySelector('.value').textContent, '1');
 });
 
-test('it supports updating an input', function(assert) {
+test('it supports updating an input', function (assert) {
   assert.expect(1);
 
   setResolverRegistry({
@@ -482,10 +482,10 @@ test('it supports updating an input', function(assert) {
   });
 });
 
-test('it supports dom triggered focus events', function(assert) {
+test('it supports dom triggered focus events', function (assert) {
   setResolverRegistry({
     'component:my-input': TextField.extend({
-      _onInit: on('init', function() {
+      _onInit: on('init', function () {
         this.set('value', 'init');
       }),
       focusIn() {
@@ -518,7 +518,7 @@ moduleForComponent('Component Integration Tests: render during setup', {
       'component:my-component': Component.extend({
         value: 0,
         layout: hbs`<span class='target'>Click to increment!</span><span class='value'>{{value}}</span>`,
-        incrementOnClick: on('click', function() {
+        incrementOnClick: on('click', function () {
           this.incrementProperty('value');
         }),
       }),
@@ -529,7 +529,7 @@ moduleForComponent('Component Integration Tests: render during setup', {
   },
 });
 
-test('it has working events', function(assert) {
+test('it has working events', function (assert) {
   this._element.querySelector('.target').click();
   assert.equal(this._element.querySelector('.value').textContent, '1');
 });
@@ -545,7 +545,7 @@ moduleForComponent('Component Integration Tests: context', {
   },
 });
 
-test('it can set and get properties', function(assert) {
+test('it can set and get properties', function (assert) {
   var setResult = this.set('foo', 1);
 
   if (hasEmberVersion(2, 0)) {
@@ -559,7 +559,7 @@ test('it can set and get properties', function(assert) {
   assert.equal(this._element.querySelector('.foo').textContent, '1');
 });
 
-test('it can setProperties and getProperties', function(assert) {
+test('it can setProperties and getProperties', function (assert) {
   var hash = {
     foo: 1,
     bar: 2,
@@ -581,7 +581,7 @@ test('it can setProperties and getProperties', function(assert) {
   assert.equal(element.querySelector('.bar').textContent, '2');
 });
 
-test('two way bound arguments are updated', function(assert) {
+test('two way bound arguments are updated', function (assert) {
   var instance;
   setResolverRegistry({
     'component:my-component': Component.extend({
@@ -604,7 +604,7 @@ test('two way bound arguments are updated', function(assert) {
   assert.equal(this.get('foo'), 'updated!');
 });
 
-test('two way bound arguments are available after clearRender is called', function(assert) {
+test('two way bound arguments are available after clearRender is called', function (assert) {
   setResolverRegistry({
     'component:my-component': Component.extend({
       didInsertElement() {
@@ -624,7 +624,7 @@ test('two way bound arguments are available after clearRender is called', functi
   assert.equal(this.get('bar'), 'updated bar!');
 });
 
-test('rendering after calling clearRender', function(assert) {
+test('rendering after calling clearRender', function (assert) {
   setResolverRegistry({
     'component:my-component': Component.extend({
       didInsertElement() {
@@ -649,7 +649,7 @@ moduleForComponent('Component Integration Tests: register and inject', {
   integration: true,
 });
 
-test('can register a component', function(assert) {
+test('can register a component', function (assert) {
   this.register(
     'component:x-foo',
     Component.extend({
@@ -660,7 +660,7 @@ test('can register a component', function(assert) {
   assert.equal(this._element.querySelectorAll('.i-am-x-foo').length, 1, 'found i-am-x-foo');
 });
 
-test('can register a service', function(assert) {
+test('can register a service', function (assert) {
   this.register(
     'component:x-foo',
     Component.extend({
@@ -678,7 +678,7 @@ test('can register a service', function(assert) {
   assert.equal(this._element.querySelector('.x-foo').textContent, 'extreme');
 });
 
-test('can inject a service directly into test context', function(assert) {
+test('can inject a service directly into test context', function (assert) {
   this.register(
     'component:x-foo',
     Component.extend({
@@ -702,7 +702,7 @@ test('can inject a service directly into test context', function(assert) {
   assert.equal(this._element.querySelector('.x-foo').textContent, 'amazing');
 });
 
-test('can inject a service directly into test context, with aliased name', function(assert) {
+test('can inject a service directly into test context, with aliased name', function (assert) {
   this.register(
     'component:x-foo',
     Component.extend({
@@ -743,12 +743,12 @@ moduleForComponent('Component Integration Tests: willDestoryElement', {
   },
 });
 
-test('still in DOM in willDestroyElement', function(assert) {
+test('still in DOM in willDestroyElement', function (assert) {
   assert.expect(2);
   this.render(hbs`{{my-component}}`);
 });
 
-test('is destroyed when rendered twice', function(assert) {
+test('is destroyed when rendered twice', function (assert) {
   assert.expect(4);
   this.render(hbs`{{my-component}}`);
   this.render(hbs`{{my-component}}`);
@@ -761,7 +761,7 @@ moduleForComponent('Component Integration Tests: force willDestroyElement via cl
   },
 });
 
-test('still in DOM in willDestroyElement', function(assert) {
+test('still in DOM in willDestroyElement', function (assert) {
   assert.expect(1);
 
   let willDestroyCalled = false;
@@ -785,7 +785,7 @@ moduleForComponent('Component Integration Tests: DOM', {
   beforeSetup() {},
 });
 
-test('it can set and get properties', function(assert) {
+test('it can set and get properties', function (assert) {
   let instance;
 
   setResolverRegistry({
@@ -819,7 +819,7 @@ if (!hasEmberVersion(2, 0)) {
     },
   });
 
-  test('it can render components semantically equivalent to v0.4.3', function(assert) {
+  test('it can render components semantically equivalent to v0.4.3', function (assert) {
     this.subject({
       name: 'Charles XII',
     });
@@ -833,7 +833,7 @@ moduleForComponent('RSVP integration', {
   integration: true,
 });
 
-test('does not require manual run wrapping', function(assert) {
+test('does not require manual run wrapping', function (assert) {
   let instance;
   this.register(
     'component:x-test-1',

@@ -4,7 +4,7 @@
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 const VersionChecker = require('ember-cli-version-checker');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let project = defaults.project;
   let checker = new VersionChecker(defaults);
   let emberChecker = checker.forEmber();

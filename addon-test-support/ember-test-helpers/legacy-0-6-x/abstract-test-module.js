@@ -35,7 +35,7 @@ export default class {
         this.cache = null;
         this.cachedCalls = null;
       })
-      .finally(function() {
+      .finally(function () {
         Ember.testing = false;
       });
   }
@@ -192,7 +192,7 @@ export default class {
     unsetContext();
 
     if (context && context.dispatcher && !context.dispatcher.isDestroyed) {
-      run(function() {
+      run(function () {
         context.dispatcher.destroy();
       });
     }

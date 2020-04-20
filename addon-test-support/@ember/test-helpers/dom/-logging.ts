@@ -39,10 +39,7 @@ export function elementToString(el: unknown) {
     if (el.length === 0) {
       return 'empty NodeList';
     }
-    desc = Array.prototype.slice
-      .call(el, 0, 5)
-      .map(elementToString)
-      .join(', ');
+    desc = Array.prototype.slice.call(el, 0, 5).map(elementToString).join(', ');
     return el.length > 5 ? `${desc}... (+${el.length - 5} more)` : desc;
   }
   if (!(el instanceof HTMLElement || el instanceof SVGElement)) {
@@ -56,7 +53,7 @@ export function elementToString(el: unknown) {
   if (el.className && !(el.className instanceof SVGAnimatedString)) {
     desc += `.${String(el.className).replace(/\s+/g, '.')}`;
   }
-  Array.prototype.forEach.call(el.attributes, function(attr: Attr) {
+  Array.prototype.forEach.call(el.attributes, function (attr: Attr) {
     if (attr.name !== 'class' && attr.name !== 'id') {
       desc += `[${attr.name}${attr.value ? `="${attr.value}"]` : ']'}`;
     }

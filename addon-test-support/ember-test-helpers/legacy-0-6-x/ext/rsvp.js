@@ -15,7 +15,7 @@ export function _setupPromiseListeners() {
   if (!hasEmberVersion(1, 7)) {
     originalAsync = RSVP.configure('async');
 
-    RSVP.configure('async', function(callback, promise) {
+    RSVP.configure('async', function (callback, promise) {
       run.backburner.schedule('actions', () => {
         callback(promise);
       });

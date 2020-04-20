@@ -19,21 +19,21 @@ import { setResolverRegistry } from '../helpers/resolver';
 import hbs from 'htmlbars-inline-precompile';
 
 const Router = EmberRouter.extend({ location: 'none' });
-Router.map(function() {
+Router.map(function () {
   this.route('widgets');
-  this.route('posts', function() {
+  this.route('posts', function () {
     this.route('post', { path: ':post_id' });
   });
   this.route('links-to-slow');
   this.route('slow');
 });
 
-module('setupApplicationContext', function(hooks) {
+module('setupApplicationContext', function (hooks) {
   if (!hasEmberVersion(2, 4)) {
     return;
   }
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     setResolverRegistry({
       'router:main': Router,
       'template:application': hbs`
@@ -72,24 +72,24 @@ module('setupApplicationContext', function(hooks) {
     await setupApplicationContext(this);
   });
 
-  hooks.afterEach(async function() {
+  hooks.afterEach(async function () {
     await teardownApplicationContext(this);
     await teardownContext(this);
   });
 
-  test('it sets up test metadata', function(assert) {
+  test('it sets up test metadata', function (assert) {
     let testMetadata = getTestMetadata(this);
 
     assert.deepEqual(testMetadata.setupTypes, ['setupContext', 'setupApplicationContext']);
   });
 
-  test('it returns true for isApplication in an application test', function(assert) {
+  test('it returns true for isApplication in an application test', function (assert) {
     let testMetadata = getTestMetadata(this);
 
     assert.ok(testMetadata.isApplication);
   });
 
-  test('can perform a basic template rendering', async function(assert) {
+  test('can perform a basic template rendering', async function (assert) {
     await visit('/');
 
     assert.equal(currentRouteName(), 'index');
@@ -99,7 +99,7 @@ module('setupApplicationContext', function(hooks) {
     assert.equal(this.element.querySelector('h1').textContent, 'Hello World!');
   });
 
-  test('can perform a basic template rendering for nested route', async function(assert) {
+  test('can perform a basic template rendering for nested route', async function (assert) {
     await visit('/posts/1');
 
     assert.equal(currentRouteName(), 'posts.post');
@@ -109,7 +109,7 @@ module('setupApplicationContext', function(hooks) {
     assert.equal(this.element.querySelector('.post-id').textContent, '1');
   });
 
-  test('can visit multiple times', async function(assert) {
+  test('can visit multiple times', async function (assert) {
     await visit('/posts/1');
 
     assert.equal(currentRouteName(), 'posts.post');
@@ -135,7 +135,7 @@ module('setupApplicationContext', function(hooks) {
     assert.equal(this.element.querySelector('.post-id').textContent, '2');
   });
 
-  test('can navigate amongst routes', async function(assert) {
+  test('can navigate amongst routes', async function (assert) {
     await visit('/');
 
     assert.equal(currentRouteName(), 'index');
@@ -149,11 +149,11 @@ module('setupApplicationContext', function(hooks) {
     assert.equal(this.element.querySelector('h1').textContent, 'Posts Page');
   });
 
-  test('bubbles up errors', function(assert) {
+  test('bubbles up errors', function (assert) {
     assert.rejects(visit('/widgets'), /Model hook error from \/widgets/);
   });
 
-  test('visit waits for async in model hooks', async function(assert) {
+  test('visit waits for async in model hooks', async function (assert) {
     assert.step('visiting');
     let visitPromise = visit('/slow');
     assert.step('after visit invocation');
@@ -174,7 +174,7 @@ module('setupApplicationContext', function(hooks) {
     ]);
   });
 
-  test('settled waits for async in model hooks after a click', async function(assert) {
+  test('settled waits for async in model hooks after a click', async function (assert) {
     await visit('/links-to-slow');
 
     assert.step('before click');
