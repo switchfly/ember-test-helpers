@@ -6,53 +6,45 @@ import {
   teardownRenderingContext,
   render,
 } from '@ember/test-helpers';
-import RSVP from 'rsvp';
-import { run } from '@ember/runloop';
-
+import engineResolverFor from 'ember-engines/test-support/engine-resolver-for';
 import hbs from 'htmlbars-inline-precompile';
-import Component from '@ember/component';
 
-let engineInstance;
-
-async function setupEngineTest(context) {
-  let engineLoadPromise;
-  engineInstance = context.owner.buildChildEngineInstance('eager-engine', {
-    routable: true,
-    mountPoint: 'eager-engine',
-  });
-  engineLoadPromise = RSVP.Promise.resolve(engineInstance);
-  await engineLoadPromise.then(engineInstance => {
-    return engineInstance.boot().then(() => {
-      context.engine = engineInstance;
-    });
-  });
-}
+const modulePrefix = 'eager-engine';
+const resolver = engineResolverFor(modulePrefix);
 
 module('setupRenderingContext for "ember-engines"', function (hooks) {
   hooks.beforeEach(async function () {
-    await setupContext(this);
-    await setupEngineTest(this);
+    await setupContext(this, { resolver });
+    // this.owner now is an engine.
+    this.engine = this.owner;
     await setupRenderingContext(this);
   });
 
   hooks.afterEach(async function () {
-    await run(engineInstance, 'destroy');
-    await run(this.engine, 'destroy');
     await teardownRenderingContext(this);
+    this.engine = undefined;
     await teardownContext(this);
   });
 
-  test('should change colors', async function (assert) {
-    assert.expect(1);
+  test('render components from engines', async function (assert) {
+    assert.expect(2);
 
-    this.engine.register('component:x-foo', Component.extend({}));
-    this.engine.register(
-      'template:components/x-foo',
-      hbs`<button {{action 'clicked'}}>Click me!</button>`
+    this.set('colorValue', 'red');
+
+    await render(hbs`{{pretty-color name=colorValue}}`);
+
+    assert.equal(
+      this.element.querySelector('div').getAttribute('style'),
+      'color: red',
+      'starts as red'
     );
 
-    await render(hbs`{{#x-foo}}{{/x-foo}}`);
+    this.set('colorValue', 'blue');
 
-    assert.equal(this.element.textContent.trim(), 'Click me!');
+    assert.equal(
+      this.element.querySelector('div').getAttribute('style'),
+      'color: blue',
+      'updates to blue'
+    );
   });
 });
