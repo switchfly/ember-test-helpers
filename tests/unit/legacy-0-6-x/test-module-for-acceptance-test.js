@@ -3,7 +3,7 @@ import EmberRouter from '@ember/routing/router';
 import EmberApplication from '@ember/application';
 import { TestModuleForAcceptance, getContext } from 'ember-test-helpers';
 
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import Resolver, { setResolverRegistry } from '../../helpers/resolver';
 import qunitModuleFor from '../../helpers/qunit-module-for';
 

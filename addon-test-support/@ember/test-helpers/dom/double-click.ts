@@ -6,6 +6,7 @@ import isFocusable from './-is-focusable';
 import { nextTickPromise } from '../-utils';
 import Target from './-target';
 import { log } from '@ember/test-helpers/dom/-logging';
+import isFormControl from './-is-form-control';
 
 /**
   @private
@@ -93,7 +94,12 @@ export default function doubleClick(target: Target, options: MouseEventInit = {}
       throw new Error(`Element not found when calling \`doubleClick('${target}')\`.`);
     }
 
+    if (isFormControl(element) && element.disabled) {
+      throw new Error(`Can not \`doubleClick\` disabled ${element}`);
+    }
+
     __doubleClick__(element, options);
+
     return settled();
   });
 }

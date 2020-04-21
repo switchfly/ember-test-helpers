@@ -48,6 +48,17 @@ module('DOM Helper: focus', function (hooks) {
     assert.rejects(focus(element), /is not focusable/);
   });
 
+  test('focusing a disabled form control', async function (assert) {
+    element = buildInstrumentedElement('input');
+    element.setAttribute('disabled', '');
+
+    await setupContext(context);
+    assert.rejects(
+      focus(`#${element.id}`, 'foo'),
+      'Error: [object HTMLInputElement] is not focusable'
+    );
+  });
+
   test('does not run sync', async function (assert) {
     element = buildInstrumentedElement('input');
 

@@ -44,6 +44,45 @@ module('DOM Helper: fillIn', function (hooks) {
     );
   });
 
+  test('filling in a disabled element', async function (assert) {
+    element = buildInstrumentedElement('input');
+    element.dataset.testDisabled = '';
+    element.setAttribute('disabled', true);
+
+    await setupContext(context);
+
+    assert.rejects(
+      fillIn(`[data-test-disabled]`, 'foo'),
+      new Error("Can not `fillIn` disabled '[data-test-disabled]'."),
+      'renders user selector'
+    );
+
+    assert.rejects(
+      fillIn(element, 'foo'),
+      new Error("Can not `fillIn` disabled '[object HTMLInputElement]'."),
+      'renders Element instance'
+    );
+  });
+
+  test('filling in a readonly element', async function (assert) {
+    element = buildInstrumentedElement('input');
+    element.dataset.testDisabled = '';
+    element.setAttribute('readonly', true);
+
+    await setupContext(context);
+
+    assert.rejects(
+      fillIn(`[data-test-disabled]`, 'foo'),
+      new Error("Can not `fillIn` readonly '[data-test-disabled]'.")
+    );
+
+    assert.rejects(
+      fillIn(element, 'foo'),
+      new Error("Can not `fillIn` readonly '[object HTMLInputElement]'."),
+      'renders Element instance'
+    );
+  });
+
   test('rejects if selector is not found', async function (assert) {
     element = buildInstrumentedElement('div');
 

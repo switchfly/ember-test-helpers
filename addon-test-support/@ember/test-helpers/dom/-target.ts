@@ -11,3 +11,8 @@ export function isElement(target: any): target is Element {
 export function isDocument(target: any): target is Document {
   return target.nodeType === Node.DOCUMENT_NODE;
 }
+
+// eslint-disable-next-line require-jsdoc
+export function isContentEditable(element: Element): element is HTMLElement {
+  return 'isContentEditable' in element && (element as HTMLElement).isContentEditable;
+}

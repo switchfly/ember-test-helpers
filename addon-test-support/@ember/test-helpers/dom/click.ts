@@ -82,11 +82,11 @@ export default function click(target: Target, options: MouseEventInit = {}): Pro
       throw new Error(`Element not found when calling \`click('${target}')\`.`);
     }
 
-    let isDisabledFormControl = isFormControl(element) && element.disabled;
-
-    if (!isDisabledFormControl) {
-      __click__(element, options);
+    if (isFormControl(element) && element.disabled) {
+      throw new Error(`Can not \`click\` disabled ${element}`);
     }
+
+    __click__(element, options);
 
     return settled();
   });

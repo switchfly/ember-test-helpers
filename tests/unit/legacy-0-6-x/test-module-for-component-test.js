@@ -12,11 +12,10 @@ import Ember from 'ember';
 import { TestModuleForComponent } from 'ember-test-helpers';
 import hasEmberVersion from 'ember-test-helpers/has-ember-version';
 import { setResolverRegistry } from '../../helpers/resolver';
-import wait from 'ember-test-helpers/wait';
 import qunitModuleFor from '../../helpers/qunit-module-for';
 import hasjQuery from '../../helpers/has-jquery';
-import hbs from 'htmlbars-inline-precompile';
-import { triggerEvent, focus, blur } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
+import { settled, triggerEvent, focus, blur } from '@ember/test-helpers';
 import { htmlSafe } from '@ember/string';
 
 var Service = EmberService || EmberObject;
@@ -854,7 +853,7 @@ test('does not require manual run wrapping', function (assert) {
   return new resolve()
     .then(() => {
       instance.set('internalValue', 'async value');
-      return wait();
+      return settled();
     })
     .then(() => {
       assert.equal(this._element.textContent, 'async value');

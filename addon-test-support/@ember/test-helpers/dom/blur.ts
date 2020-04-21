@@ -1,16 +1,20 @@
 import getElement from './-get-element';
 import fireEvent from './fire-event';
 import settled from '../settled';
-import isFocusable from './-is-focusable';
 import { nextTickPromise } from '../-utils';
 import Target from './-target';
 import { log } from '@ember/test-helpers/dom/-logging';
+import isFocusable from './-is-focusable';
 
 /**
   @private
   @param {Element} element the element to trigger events on
 */
-export function __blur__(element: HTMLElement | SVGElement): void {
+export function __blur__(element: HTMLElement | Element | Document | SVGElement): void {
+  if (!isFocusable(element)) {
+    throw new Error(`${element} is not focusable`);
+  }
+
   let browserIsNotFocused = document.hasFocus && !document.hasFocus();
 
   // makes `document.activeElement` be `body`.
@@ -58,10 +62,6 @@ export default function blur(target: Target = document.activeElement!): Promise<
     let element = getElement(target);
     if (!element) {
       throw new Error(`Element not found when calling \`blur('${target}')\`.`);
-    }
-
-    if (!isFocusable(element)) {
-      throw new Error(`${target} is not focusable`);
     }
 
     __blur__(element);

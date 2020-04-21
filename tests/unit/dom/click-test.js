@@ -174,14 +174,15 @@ module('DOM Helper: click', function (hooks) {
       );
     });
 
-    test('clicking a disabled input does nothing', async function (assert) {
+    test('clicking a disabled form control', async function (assert) {
       element = buildInstrumentedElement('input');
       element.setAttribute('disabled', true);
 
-      await click(element);
-
-      assert.verifySteps([]);
-      assert.notStrictEqual(document.activeElement, element, 'activeElement not updated');
+      await setupContext(context);
+      assert.rejects(
+        click(`#${element.id}`, 'foo'),
+        new Error('Can not `click` disabled [object HTMLInputElement]')
+      );
     });
   });
 

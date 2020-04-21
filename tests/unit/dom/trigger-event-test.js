@@ -111,6 +111,17 @@ module('DOM Helper: triggerEvent', function (hooks) {
     assert.rejects(triggerEvent(element), /Must provide an `eventType` to `triggerEvent`/);
   });
 
+  test('rejects for disabled form control', async function (assert) {
+    element = buildInstrumentedElement('textarea');
+    element.setAttribute('disabled', true);
+
+    await setupContext(context);
+    assert.rejects(
+      triggerEvent(element, 'mouseenter'),
+      new Error('Can not `triggerEvent` on disabled [object HTMLTextAreaElement]')
+    );
+  });
+
   test('events properly bubble upwards', async function (assert) {
     await setupContext(context);
     element = buildInstrumentedElement('div');

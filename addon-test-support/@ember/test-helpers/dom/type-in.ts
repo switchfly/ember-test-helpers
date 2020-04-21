@@ -3,7 +3,6 @@ import settled from '../settled';
 import getElement from './-get-element';
 import isFormControl, { FormControl } from './-is-form-control';
 import { __focus__ } from './focus';
-import isFocusable from './-is-focusable';
 import { Promise } from 'rsvp';
 import fireEvent from './fire-event';
 import Target from './-target';
@@ -58,11 +57,17 @@ export default function typeIn(target: Target, text: string, options: Options = 
       throw new Error('Must provide `text` when calling `typeIn`.');
     }
 
-    let { delay = 50 } = options;
-
-    if (isFocusable(element)) {
-      __focus__(element);
+    if (element.disabled) {
+      throw new Error(`Can not \`typeIn\` disabled '${target}'.`);
     }
+
+    if ('readOnly' in element && element.readOnly) {
+      throw new Error(`Can not \`typeIn\` readonly '${target}'.`);
+    }
+
+    __focus__(element);
+
+    let { delay = 50 } = options;
 
     return fillOut(element, text, delay)
       .then(() => fireEvent(element, 'change'))

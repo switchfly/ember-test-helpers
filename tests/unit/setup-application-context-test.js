@@ -16,7 +16,7 @@ import {
 } from '@ember/test-helpers';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 import { setResolverRegistry } from '../helpers/resolver';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 const Router = EmberRouter.extend({ location: 'none' });
 Router.map(function () {

@@ -3,7 +3,7 @@ import Resolver from '@ember/application/resolver';
 
 import { Promise } from 'rsvp';
 
-import legacyBuildRegistry from 'ember-test-helpers/legacy-0-6-x/build-registry';
+import legacyBuildRegistry from './-internal/build-registry';
 import ContainerProxyMixin from '@ember/engine/-private/container-proxy-mixin';
 import RegistryProxyMixin from '@ember/engine/-private/registry-proxy-mixin';
 import CoreObject from '@ember/object/core';

@@ -22,7 +22,7 @@ import {
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 import hasjQuery from '../helpers/has-jquery';
 import { setResolverRegistry, application, resolver } from '../helpers/resolver';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('setupRenderingContext', function (hooks) {
   if (!hasEmberVersion(2, 4)) {

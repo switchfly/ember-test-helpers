@@ -5,6 +5,7 @@ import settled from '../settled';
 import { nextTickPromise } from '../-utils';
 import Target from './-target';
 import { log } from '@ember/test-helpers/dom/-logging';
+import isFormControl from './-is-form-control';
 
 /**
   Taps on the specified target.
@@ -59,6 +60,10 @@ export default function tap(target: Target, options: object = {}): Promise<void>
     let element = getElement(target);
     if (!element) {
       throw new Error(`Element not found when calling \`tap('${target}')\`.`);
+    }
+
+    if (isFormControl(element) && element.disabled) {
+      throw new Error(`Can not \`tap\` disabled ${element}`);
     }
 
     let touchstartEv = fireEvent(element, 'touchstart', options);

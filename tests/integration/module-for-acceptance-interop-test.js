@@ -5,7 +5,7 @@ import Component from '@ember/component';
 import { click } from '@ember/test-helpers';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import ajax from '../helpers/ajax';
 import Pretender from 'pretender';
 import moduleForAcceptance from '../helpers/module-for-acceptance';

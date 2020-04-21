@@ -9,7 +9,7 @@ import {
 } from '@ember/test-helpers';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 import { elementToString } from '@ember/test-helpers/dom/-logging';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 
 module('elementToString()', function (hooks) {
   if (!hasEmberVersion(2, 4)) {

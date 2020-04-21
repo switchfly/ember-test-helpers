@@ -95,6 +95,17 @@ module('DOM Helper: triggerKeyEvent', function (hooks) {
     );
   });
 
+  test('rejects for disabled form control', async function (assert) {
+    element = buildInstrumentedElement('textarea');
+    element.setAttribute('disabled', true);
+
+    await setupContext(context);
+    assert.rejects(
+      triggerKeyEvent(element, 'keypress', '13'),
+      new Error('Can not `triggerKeyEvent` on disabled [object HTMLTextAreaElement]')
+    );
+  });
+
   test('triggering via selector with context set', async function (assert) {
     element = buildInstrumentedElement('div');
 

@@ -4,6 +4,7 @@ import settled from '../settled';
 import { nextTickPromise } from '../-utils';
 import Target from './-target';
 import { log } from '@ember/test-helpers/dom/-logging';
+import isFormControl from './-is-form-control';
 
 /**
  * Triggers an event on the specified target.
@@ -60,13 +61,17 @@ export default function triggerEvent(
       throw new Error('Must pass an element or selector to `triggerEvent`.');
     }
 
+    if (!eventType) {
+      throw new Error(`Must provide an \`eventType\` to \`triggerEvent\``);
+    }
+
     let element = getElement(target);
     if (!element) {
       throw new Error(`Element not found when calling \`triggerEvent('${target}', ...)\`.`);
     }
 
-    if (!eventType) {
-      throw new Error(`Must provide an \`eventType\` to \`triggerEvent\``);
+    if (isFormControl(element) && element.disabled) {
+      throw new Error(`Can not \`triggerEvent\` on disabled ${element}`);
     }
 
     fireEvent(element, eventType, options);

@@ -6,7 +6,7 @@ import global from './global';
 import { BaseContext, TestContext, isTestContext, getContext } from './setup-context';
 import { nextTickPromise } from './-utils';
 import settled from './settled';
-import hbs, { TemplateFactory } from 'htmlbars-inline-precompile';
+import { hbs, TemplateFactory } from 'ember-cli-htmlbars';
 import getRootElement from './dom/get-root-element';
 import { Owner } from './build-owner';
 import { deprecate } from '@ember/application/deprecations';

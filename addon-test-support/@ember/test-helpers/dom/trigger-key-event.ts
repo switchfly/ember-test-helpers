@@ -6,6 +6,7 @@ import { KEYBOARD_EVENT_TYPES, KeyboardEventType, isKeyboardEventType } from './
 import { nextTickPromise, isNumeric } from '../-utils';
 import Target from './-target';
 import { log } from '@ember/test-helpers/dom/-logging';
+import isFormControl from './-is-form-control';
 
 export interface KeyModifiers {
   ctrlKey?: boolean;
@@ -205,6 +206,10 @@ export default function triggerKeyEvent(
       throw new Error(
         `Must provide an \`eventType\` of ${validEventTypes} to \`triggerKeyEvent\` but you passed \`${eventType}\`.`
       );
+    }
+
+    if (isFormControl(element) && element.disabled) {
+      throw new Error(`Can not \`triggerKeyEvent\` on disabled ${element}`);
     }
 
     __triggerKeyEvent__(element, eventType, key, modifiers);

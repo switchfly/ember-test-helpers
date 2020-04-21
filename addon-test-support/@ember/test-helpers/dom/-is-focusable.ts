@@ -1,14 +1,12 @@
 import isFormControl from './-is-form-control';
-import { isDocument } from './-target';
+import { isDocument, isContentEditable } from './-target';
 
 const FOCUSABLE_TAGS = ['A'];
 
 type FocusableElement = HTMLAnchorElement;
 
 // eslint-disable-next-line require-jsdoc
-function isFocusableElement(
-  element: HTMLElement | SVGElement | Element
-): element is FocusableElement {
+function isFocusableElement(element: Element): element is FocusableElement {
   return FOCUSABLE_TAGS.indexOf(element.tagName) > -1;
 }
 
@@ -24,11 +22,11 @@ export default function isFocusable(
     return false;
   }
 
-  if (
-    isFormControl(element) ||
-    (element as HTMLElement).isContentEditable ||
-    isFocusableElement(element)
-  ) {
+  if (isFormControl(element)) {
+    return !element.disabled;
+  }
+
+  if (isContentEditable(element) || isFocusableElement(element)) {
     return true;
   }
 

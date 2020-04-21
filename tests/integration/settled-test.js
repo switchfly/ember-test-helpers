@@ -13,7 +13,7 @@ import {
 } from '@ember/test-helpers';
 import hasEmberVersion from '@ember/test-helpers/has-ember-version';
 import { module, test } from 'qunit';
-import hbs from 'htmlbars-inline-precompile';
+import { hbs } from 'ember-cli-htmlbars';
 import Pretender from 'pretender';
 import ajax from '../helpers/ajax';
 

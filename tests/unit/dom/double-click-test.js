@@ -110,6 +110,17 @@ module('DOM Helper: doubleClick', function (hooks) {
       );
     });
 
+    test('rejects for disabled form control', async function (assert) {
+      element = buildInstrumentedElement('select');
+      element.setAttribute('disabled', true);
+
+      await setupContext(context);
+      assert.rejects(
+        doubleClick(element),
+        new Error('Can not `doubleClick` disabled [object HTMLSelectElement]')
+      );
+    });
+
     test('double-clicking a div via selector without context set', function (assert) {
       element = buildInstrumentedElement('div');
 

@@ -149,5 +149,12 @@ module('DOM Helper: tap', function (hooks) {
         /Must setup rendering context before attempting to interact with elements/
       );
     });
+
+    test('tapping disabled form control', function (assert) {
+      element = buildInstrumentedElement('input');
+      element.setAttribute('disabled', '');
+
+      assert.rejects(tap(element), new Error('Can not `tap` disabled [object HTMLInputElement]'));
+    });
   });
 });
