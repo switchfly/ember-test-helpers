@@ -6,8 +6,6 @@ const Router = EmberRouter.extend({
   rootURL: config.rootURL,
 });
 
-Router.map(function() {
-  this.mount('eager-engine', { path: '/use-eager-engine', as: 'use-eager-engine' });
-});
+Router.map(function () {});
 
 export default Router;

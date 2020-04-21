@@ -36,8 +36,8 @@ module('setupRenderingContext for "ember-engines"', function (hooks) {
   });
 
   hooks.afterEach(async function () {
-    run(engineInstance, 'destroy');
-    run(this.engine, 'destroy');
+    await run(engineInstance, 'destroy');
+    await run(this.engine, 'destroy');
     await teardownRenderingContext(this);
     await teardownContext(this);
   });
