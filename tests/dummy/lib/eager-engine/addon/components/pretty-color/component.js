@@ -6,7 +6,7 @@ export default Component.extend({
   layout,
   attributeBindings: ['style'],
 
-  style: computed('name', function() {
+  style: computed('name', function () {
     return `color: ${this.name}`;
   }),
 });
