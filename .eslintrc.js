@@ -10,6 +10,7 @@ module.exports = {
   env: {
     browser: true,
   },
+  ignorePatterns: ['node_modules/'],
   rules: {
     'prettier/prettier': 'error',
   },
