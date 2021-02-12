@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
+    "@embroider/test-setup": "^0.36.0",
     "@types/ember": "^3.16.4",
     "@types/ember-data": "^3.16.13",
     "@types/ember-testing-helpers": "^0.0.4",
