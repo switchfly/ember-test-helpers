@@ -79,7 +79,7 @@ const keyFromKeyCode: { [key: number]: string } = {
   84: 't',
   85: 'u',
   86: 'v',
-  87: 'v',
+  87: 'w',
   88: 'x',
   89: 'y',
   90: 'z',
