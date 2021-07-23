@@ -1,0 +1,33 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: monthly
+  open-pull-requests-limit: 10
+  versioning-strategy: increase
+  ignore:
+  - dependency-name: ember-cli-htmlbars-inline-precompile
+    versions:
+    - "> 2.1.0"
+  - dependency-name: ember-cli-typescript
+    versions:
+    - "> 1.5.0"
+  - dependency-name: ember-cli-typescript
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: ember-cli
+    versions:
+    - 3.25.0
+    - 3.25.2
+  - dependency-name: typescript
+    versions:
+    - 4.1.3
+    - 4.1.5
+    - 4.2.2
+  - dependency-name: ember-source
+    versions:
+    - 3.25.1
+  - dependency-name: "@types/ember-data"
+    versions:
+    - 3.16.10
